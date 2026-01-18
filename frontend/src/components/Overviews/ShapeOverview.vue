@@ -161,37 +161,16 @@ import {
   getAverageViolationsForNodeShapes,
   getViolationsDistribution,
   getCorrelationData,
-  getNodeShapeDetailsTable,
-  getValidationDetailsReport
+  getNodeShapeDetailsTable
 } from '../../services/api.js';
+import { usePrefixes } from '../../composables/usePrefixes.js';
 
 // State
 const loading = ref(false);
 const error = ref(null);
 
-// Prefixes for URI formatting (same as MainContent.vue)
-const prefixes = ref({});
-
-// Helper function to format URIs using prefixes (same as MainContent.vue)
-const formatURI = (uri) => {
-  if (!uri || typeof uri !== "string") return uri;
-
-  let matchedPrefix = null;
-  let matchedNamespace = null;
-
-  for (const [prefix, namespace] of Object.entries(prefixes.value)) {
-    if (uri.startsWith(namespace) && (!matchedNamespace || namespace.length > matchedNamespace.length)) {
-      matchedPrefix = prefix;
-      matchedNamespace = namespace;
-    }
-  }
-
-  if (matchedPrefix) {
-    return `${matchedPrefix}:${uri.slice(matchedNamespace.length)}`;
-  }
-
-  return uri;
-};
+// Use prefixes composable for URI formatting
+const { loadPrefixes, formatURI } = usePrefixes();
 
 const shapeViolations2 = ref([
   { name: "PersonShape", violations: { "sh:minCount": 20, "sh:datatype": 10 }, totalViolations: 30, constraints: 10 },
@@ -353,9 +332,8 @@ const loadOverviewData = async () => {
   error.value = null;
 
   try {
-    // First, fetch prefixes from validation details (same as MainContent.vue)
-    const prefixData = await getValidationDetailsReport(1, 0);
-    prefixes.value = prefixData["@prefixes"] || {};
+    // Load prefixes (cached after first call)
+    await loadPrefixes();
 
     // Load tags data in parallel
     const [totalShapesData, shapesWithViolationsData, maxViolationsData, avgViolationsData] = 

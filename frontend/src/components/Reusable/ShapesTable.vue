@@ -174,7 +174,8 @@
   import ShapeTableRow from './ShapeTableRow.vue'; // Import the ShapeTableRow component
   import ShapesTablePropertyShape from './ShapesTablePropertyShape.vue'; // Import the ShapeTableRow component
   import Filter from './Filter.vue';
-  import { getNodeShapeWithViolations, getValidationDetailsReport } from '../../services/api.js';
+  import { getNodeShapeWithViolations } from '../../services/api.js';
+  import { usePrefixes } from '../../composables/usePrefixes.js';
 
   // Define props
   const props = defineProps({
@@ -184,10 +185,12 @@
     }
   });
   
-  // Define table data and prefixes
+  // Use prefixes composable for URI formatting
+  const { loadPrefixes, formatURI, prefixes } = usePrefixes();
+  
+  // Define table data
   const tableData = ref([]);
   const tablesData = ref([]);
-  const prefixes = ref({});
   const loading = ref(false);
   const error = ref(null);
   
@@ -228,9 +231,8 @@
     error.value = null;
 
     try {
-      // First fetch prefixes from validation details
-      const prefixData = await getValidationDetailsReport(1, 0);
-      prefixes.value = prefixData["@prefixes"] || {};
+      // Load prefixes (cached after first call)
+      await loadPrefixes();
       
       // Fetch data with violations from new API endpoint
       const response = await getNodeShapeWithViolations(props.nodeShape);
@@ -400,42 +402,7 @@
   }
 };
   
-  // Function to replace full URI with prefix
-  const replacePrefix = (uri) => {
-    for (const prefix in prefixes.value) {
-      if (uri.startsWith(prefixes.value[prefix])) {
-        return uri.replace(prefixes.value[prefix], `${prefix}:`);
-      }
-    }
-    return uri; // If no prefix found, return the URI as is
-  };
-
   const showFullPrefixes = ref(false); // State to track prefix expansion
-
-  const formatURI = (uri) => {
-  if (!uri || typeof uri !== "string") return uri; // Ensure valid input
-
-  console.log("Processing URI:", uri);
-
-  let matchedPrefix = null;
-  let matchedNamespace = null;
-
-  for (const [prefix, namespace] of Object.entries(prefixes.value)) {
-    if (uri.startsWith(namespace) && (!matchedNamespace || namespace.length > matchedNamespace.length)) {
-      matchedPrefix = prefix;
-      matchedNamespace = namespace;
-    }
-  }
-
-  if (matchedPrefix) {
-    const transformedURI = `${matchedPrefix}:${uri.slice(matchedNamespace.length)}`;
-    console.log(`Transformed "${uri}" → "${transformedURI}"`);
-    return transformedURI;
-  }
-
-  console.log(`No match for "${uri}". Returning original.`);
-  return uri; // Return as is if no prefix match
-};
 
 const showPrefixes = ref(false);
 

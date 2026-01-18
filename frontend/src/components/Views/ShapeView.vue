@@ -162,9 +162,9 @@ import {
   getPropertyPathsCountForNodeShape,
   getConstraintCountForNodeShape,
   getViolationsPerConstraintTypeForPropertyShape,
-  getShapeDefinition,
-  getValidationDetailsReport
+  getShapeDefinition
 } from '../../services/api.js';
+import { usePrefixes } from '../../composables/usePrefixes.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -177,29 +177,8 @@ const affectedFocusNodes = ref(0);
 const loading = ref(false);
 const error = ref(null);
 
-// Prefixes for URI formatting (same as MainContent.vue)
-const prefixes = ref({});
-
-// Helper function to format URIs using prefixes (same as MainContent.vue)
-const formatURI = (uri) => {
-  if (!uri || typeof uri !== "string") return uri;
-
-  let matchedPrefix = null;
-  let matchedNamespace = null;
-
-  for (const [prefix, namespace] of Object.entries(prefixes.value)) {
-    if (uri.startsWith(namespace) && (!matchedNamespace || namespace.length > matchedNamespace.length)) {
-      matchedPrefix = prefix;
-      matchedNamespace = namespace;
-    }
-  }
-
-  if (matchedPrefix) {
-    return `${matchedPrefix}:${uri.slice(matchedNamespace.length)}`;
-  }
-
-  return uri;
-};
+// Use prefixes composable for URI formatting
+const { loadPrefixes, formatURI } = usePrefixes();
 
 const affectedPropertyPaths = ref(0);
 const constraintsTriggered = ref(0);
@@ -267,9 +246,8 @@ const loadShapeData = async (shapeId) => {
   error.value = null;
 
   try {
-    // First, fetch prefixes from validation details
-    const prefixData = await getValidationDetailsReport(1, 0);
-    prefixes.value = prefixData["@prefixes"] || {};
+    // Load prefixes (cached after first call)
+    await loadPrefixes();
 
     // Fetch all data in parallel
     const [
@@ -345,11 +323,34 @@ const loadShapeData = async (shapeId) => {
 
       // For most violated focus node, set to N/A (requires separate backend endpoint)
       mostViolatedFocusNode.value = "N/A";
+
+      // Calculate Pareto data (top 3 property shapes by violation count)
+      const propertyShapeViolations = violationsPerConstraintData.propertyShapes.map(ps => ({
+        name: formatURI(ps.PropertyShape),
+        totalViolations: ps.Constraints.reduce((sum, c) => sum + c.Violations, 0)
+      }));
+
+      // Sort by violations (descending) and take top 3
+      const top3 = propertyShapeViolations
+        .sort((a, b) => b.totalViolations - a.totalViolations)
+        .slice(0, 3);
+
+      // Update paretoData
+      paretoData.value = {
+        labels: top3.map(ps => ps.name),
+        values: top3.map(ps => ps.totalViolations)
+      };
     } else {
       // No data available
       mostViolatedPropertyPath.value = "None";
       mostTriggeredConstraint.value = "None";
       mostViolatedFocusNode.value = "N/A";
+      
+      // Fallback if no data
+      paretoData.value = {
+        labels: [],
+        values: []
+      };
     }
 
     console.log('Shape data loaded successfully:', {
