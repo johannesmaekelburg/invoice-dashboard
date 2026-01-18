@@ -421,9 +421,6 @@ const loadOverviewData = async () => {
       mostViolatedConstraint: formatURI(shape.mostViolatedConstraint)
     }));
 
-    // Update table data
-    shapes.value = tableData.nodeShapes || [];
-
   } catch (err) {
     console.error('Error loading overview data:', err);
     error.value = 'Failed to load overview data. Please try again.';
@@ -461,7 +458,9 @@ const nextPage = () => {
 
 // Use originalName (full URI) for navigation, not the prefixed name
 const goToShape = (shape) => {
-  router.push({ name: "ShapeView", params: { shapeId: shape.name } });
+  // URL-encode the shape URI to handle special characters and slashes
+  const encodedShapeId = encodeURIComponent(shape.originalName);
+  router.push({ name: "ShapeView", params: { shapeId: encodedShapeId } });
 };
 
 const sortKey = ref("");

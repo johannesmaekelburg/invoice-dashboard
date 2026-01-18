@@ -232,6 +232,20 @@ export async function getPropertyShapesForNodeShape(nodeShape, limit, offset) {
 }
 
 /**
+ * Get node shape with detailed violations for all property shapes
+ * @param {string} nodeShape - Node shape URI
+ * @param {number} [limitViolations] - Limit violations per property shape
+ * @param {number} [offsetViolations] - Offset for violations
+ * @returns {Promise<{nodeShape: string, propertyShapes: Array}>}
+ */
+export async function getNodeShapeWithViolations(nodeShape, limitViolations, offsetViolations) {
+  let url = `/shape_view/node-shape/violations-detailed?node_shape=${encodeURIComponent(nodeShape)}`;
+  if (limitViolations !== undefined) url += `&limit_violations=${limitViolations}`;
+  if (offsetViolations !== undefined) url += `&offset_violations=${offsetViolations}`;
+  return apiRequest(url);
+}
+
+/**
  * Get total number of node shapes in shapes graph
  * @param {string} [graphUri] - Optional shapes graph URI
  * @returns {Promise<{nodeShapeCount: number}>}

@@ -95,6 +95,7 @@
               :numberOfViolations="shape.numberOfViolations"
               :numberOfConstraints="shape.numberOfConstraints"
               :mostViolatedConstraint="shape.mostViolatedConstraint"
+              :violations="shape.violations"
             />
             </tbody>
         </table>
@@ -173,7 +174,7 @@
   import ShapeTableRow from './ShapeTableRow.vue'; // Import the ShapeTableRow component
   import ShapesTablePropertyShape from './ShapesTablePropertyShape.vue'; // Import the ShapeTableRow component
   import Filter from './Filter.vue';
-  import { getPropertyShapesForNodeShape } from '../../services/api.js';
+  import { getNodeShapeWithViolations, getValidationDetailsReport } from '../../services/api.js';
 
   // Define props
   const props = defineProps({
@@ -216,7 +217,7 @@
   const propertyShapes = ref([]);
   const expandedIndex = ref(null);
 
-  // Load property shapes data from API
+  // Load property shapes data with violations from API
   const loadPropertyShapes = async () => {
     if (!props.nodeShape) {
       console.warn('No nodeShape provided to ShapesTable');
@@ -227,19 +228,25 @@
     error.value = null;
 
     try {
-      // Fetch data from API
-      const response = await getPropertyShapesForNodeShape(props.nodeShape);
+      // First fetch prefixes from validation details
+      const prefixData = await getValidationDetailsReport(1, 0);
+      prefixes.value = prefixData["@prefixes"] || {};
+      
+      // Fetch data with violations from new API endpoint
+      const response = await getNodeShapeWithViolations(props.nodeShape);
       const jsonData = response.propertyShapes || [];
 
       // Map the data to the required format
       tablesData.value = jsonData.map((shape) => ({
         propertyShapeName: formatURI(shape.PropertyShapeName),
+        originalPropertyShapeName: shape.PropertyShapeName, // Keep original for backend calls
         numberOfViolations: shape.NumViolations,
         numberOfConstraints: shape.NumConstraints,
         mostViolatedConstraint: formatURI(shape.MostViolatedConstraint || 'None'),
+        violations: shape.Violations || [], // Pass violations array to child
       }));
 
-      console.log("Loaded Property Shapes Data:", tablesData.value); // Debug log
+      console.log("Loaded Property Shapes Data with Violations:", tablesData.value); // Debug log
     } catch (err) {
       console.error('Error fetching property shapes:', err);
       error.value = 'Failed to load property shapes data. Please try again.';
@@ -272,9 +279,11 @@
   return data;
 });
 
-  // Fetch data when the component is mounted
+  // Fetch data when the component is mounted (only if nodeShape is provided)
   onMounted(async () => {
-    await loadPropertyShapes();
+    if (props.nodeShape) {
+      await loadPropertyShapes();
+    }
   });
 
   // Watch for nodeShape changes and reload data

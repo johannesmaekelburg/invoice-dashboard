@@ -8,6 +8,7 @@ from functions import (
     get_number_of_violations_per_constraint_type_for_property_shape,
     get_total_constraints_count_per_node_shape,
     get_constraints_count_for_property_shapes,
+    get_node_shape_with_violations,
 )
 
 """
@@ -153,5 +154,30 @@ def get_constraints_count_for_property_shapes_route():
 
         result = get_constraints_count_for_property_shapes(nodeshape_name)
         return jsonify({'nodeShape': nodeshape_name, 'propertyShapesConstraints': result}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+# Route to get node shape with all property shapes and their detailed violations
+@shape_view_bp.route('/shape_view/node-shape/violations-detailed', methods=['GET'])
+def get_node_shape_violations_detailed():
+    """
+    Get node shape with all property shapes and their detailed violations.
+    Returns comprehensive violation details including focus nodes, result paths, messages, etc.
+    """
+    try:
+        node_shape = request.args.get("node_shape")
+        limit_violations = request.args.get("limit_violations", type=int)
+        offset_violations = request.args.get("offset_violations", type=int)
+
+        if not node_shape:
+            return jsonify({'error': 'node_shape is required'}), 400
+
+        result = get_node_shape_with_violations(
+            node_shape,
+            limit_violations_per_property=limit_violations,
+            offset_violations_per_property=offset_violations
+        )
+        return jsonify(result), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400

@@ -69,7 +69,8 @@ from .shapes_overview_service import (
     get_distribution_of_violations_per_constraint,
     get_correlation_of_constraints_and_violations,
     get_node_shape_details_table,
-    
+    get_property_shape_with_violations,
+    get_node_shape_with_violations,
 )
 
 __all__ = [
@@ -117,4 +118,6 @@ __all__ = [
     "get_distinct_constraint_components_count",
     "get_distinct_constraints_count_in_shapes",
     "get_distribution_of_violations_per_constraint_component",
+    "get_property_shape_with_violations",
+    "get_node_shape_with_violations",
 ]

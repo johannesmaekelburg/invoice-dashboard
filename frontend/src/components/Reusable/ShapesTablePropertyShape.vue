@@ -26,7 +26,14 @@
     <tr v-if="showDetails">
         <td colspan="5" class="details-cell text-left align-top px-6 py-4 border-b border-gray-300 text-gray-800 font-medium cursor-pointer">
             <h3 class="text-xl font-semibold text-gray-700 mb-3">Validation Results:</h3>
-            <table class="w-full border-collapse table-auto">
+            
+            <!-- Show message if no violations -->
+            <div v-if="!hasViolations" class="text-gray-500 italic py-4">
+              No violations found for this property shape.
+            </div>
+            
+            <!-- Show violations table if violations exist -->
+            <table v-else class="w-full border-collapse table-auto">
                 <!-- Table Header Row -->
                 <thead class="bg-gray-200 w-full">
                     <tr>
@@ -66,80 +73,49 @@
                 </tbody>
             </table>
         </td>
-    </tr  v-if="showDetails">
+    </tr>
   </template>
   
   <script setup>
-/**
- * ShapesTablePropertyShape component
- *
- * Renders an expandable row for property shape information with associated validation results.
- * Shows property shape statistics with the ability to expand for detailed validation information.
- *
- * @example
- * // Basic usage in a parent component template:
- * // <ShapesTablePropertyShape
- * //   :rowNumber="1"
- * //   propertyShapeName="ex:nameShape"
- * //   :numberOfViolations="5"
- * //   :numberOfConstraints="3"
- * //   mostViolatedConstraint="sh:pattern"
- * // />
- *
- * @prop {Number} rowNumber - The sequential number for this row
- * @prop {String} propertyShapeName - The name of the property shape
- * @prop {Number} numberOfViolations - Count of violations for this property shape
- * @prop {Number} numberOfConstraints - Count of constraints in this property shape
- * @prop {String} mostViolatedConstraint - The most frequently violated constraint
- *
- * @dependencies
- * - vue (Composition API)
- * - ./ShapeTableRow.vue - For rendering detailed validation rows
- *
- * @style
- * - Interactive row with hover effects and expandable details.
- * - Nested table for displaying detailed violations.
- * - Triangle indicators showing expansion state.
- * 
- * @returns {HTMLElement} Two table rows: a main row showing property shape statistics, and
- * an expandable details row that appears when clicked, containing a nested table with
- * comprehensive validation results for the property shape including all affected triples.
- */
-  import { defineProps, ref, onMounted } from 'vue';
-  import ShapeTableRow from './ShapeTableRow.vue'; // Import the ShapeTableRow component
+  /**
+   * Property Shape Table Component
+   * 
+   * Displays a row in the property shapes table with expandable violation details.
+   * Each row shows summary statistics and can be expanded to show detailed violations.
+   * 
+   * @prop {string} propertyShapeName - Name/URI of the property shape
+   * @prop {number} numberOfViolations - Total violations for this property shape
+   * @prop {number} numberOfConstraints - Total constraints for this property shape
+   * @prop {string} mostViolatedConstraint - Most frequently violated constraint
+   * @prop {Array} violations - Array of detailed violation objects
+   */
+  import ShapeTableRow from './ShapeTableRow.vue';
+  import { ref, computed, onMounted } from 'vue';
 
+  // Define props
   const props = defineProps({
-    rowNumber: Number,
-    propertyShapeName: String,
-    numberOfViolations: Number,
-    numberOfConstraints: Number,
-    mostViolatedConstraint: String,
-    });
-  
-  // Define the props to receive data from the parent component
-  const loadPropertyShapes = async () => {
-    try {
-        const response = await fetch('./../reports/example.json');
-        if (response.ok) {
-        const propertyShapesData = await response.json();
-
-        // Map the JSON data into the desired structure
-        tableData.value = propertyShapesData.map((shape) => ({
-            propertyShapeName: shape.property_shape_name,
-            numberOfViolations: shape.number_of_violations,
-            numberOfConstraints: shape.number_of_constraints,
-            mostViolatedConstraint: shape.most_violated_constraint,
-        }));
-
-        console.log("Mapped Property Shapes Data:", tableData.value); // Debug log
-        } else {
-        console.error('Failed to fetch property shapes data. Response not OK.');
-        }
-    } catch (error) {
-        console.error('Error fetching property shapes data:', error);
+    propertyShapeName: {
+      type: String,
+      required: true
+    },
+    numberOfViolations: {
+      type: Number,
+      required: true
+    },
+    numberOfConstraints: {
+      type: Number,
+      required: true
+    },
+    mostViolatedConstraint: {
+      type: String,
+      required: true
+    },
+    violations: {
+      type: Array,
+      default: () => []
     }
-    };
-  
+  });
+
   const showDetails = ref(false);
   
   // Toggle function for showing/hiding additional information
@@ -148,59 +124,31 @@
     event.stopPropagation(); // Prevent the row click from triggering the toggle
   };
 
-  
-  const tableData = ref([]);
-
-  const loadJsonData = async () => {
-    try {
-      const response = await fetch('./../reports/result.json');
-      if (response.ok) {
-        const jsonData = await response.json();
-        
-        const violations = jsonData.violations;
-
-        tableData.value = violations.map((violation, index) => {
-          const details = Object.values(violation)[0].full_validation_details;
-          const shapeDetails = Object.values(violation)[0].shape_details;
-
-          console.log("Details:", details); // Debug log
-          console.log("Shape Details:", shapeDetails); // Debug log
-
-          return {
-            focusNode: details.FocusNode,
-            resultPath: details.ResultPath,
-            value: details.Value,
-            message: details.Message,
-            propertyShape: details.PropertyShape,
-            severity: details.Severity,
-            targetClass: details.TargetClass || [], // Add fallback for missing values
-            targetNode: details.TargetNode || [],
-            targetSubjectsOf: details.TargetSubjectsOf || [],
-            targetObjectsOf: details.TargetObjectsOf || [],
-            nodeShape: details.NodeShape || "",
-            constraintComponent: details.ConstraintComponent || "",
-            shapes: {
-              shape: shapeDetails.Shape || "",
-              type: shapeDetails.Type || "",
-              properties: shapeDetails.Properties || [],
-              targetClass: shapeDetails.TargetClass || [],
-            },
-          };
-        });
-
-        console.log("Mapped Table Data:", tableData.value); // Debug log
-      } else {
-        console.error('Failed to load JSON data.');
-      }
-    } catch (error) {
-      console.error('Error fetching JSON data:', error);
-    }
-  };
-  // Fetch data on mount
-  onMounted(async () => {
-    await loadJsonData();
+  // Map violations prop directly to table data
+  const tableData = computed(() => {
+    return props.violations.map((violation, index) => ({
+      id: index + 1,
+      focusNode: violation.focusNode,
+      resultPath: violation.resultPath,
+      value: violation.value,
+      message: violation.message,
+      propertyShape: violation.propertyShape,
+      severity: violation.severity,
+      targetClass: violation.targetClass || null,
+      targetNode: violation.targetNode || null,
+      targetSubjectsOf: violation.targetSubjectsOf || null,
+      targetObjectsOf: violation.targetObjectsOf || null,
+      nodeShape: violation.nodeShape || null,
+      constraintComponent: violation.constraintComponent || null,
+    }));
   });
 
+  // Computed property to track if there are violations to display
+  const hasViolations = computed(() => props.violations.length > 0);
+
+  onMounted(() => {
+    console.log(`Property Shape: ${props.propertyShapeName}, Violations:`, props.violations.length);
+  });
   </script>
   
   <style scoped>

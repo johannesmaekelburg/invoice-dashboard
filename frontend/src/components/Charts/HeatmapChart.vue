@@ -243,19 +243,19 @@ onUnmounted(() => {
 const baseWidth = 1800;
 const baseHeight = 350;
 
-// Computed responsive width and height
-const innerWidth = computed(() => responsiveWidth.value - margin.left - margin.right);
-const innerHeight = computed(() => responsiveHeight.value - margin.top - margin.bottom);
+// Computed responsive width and height with safety checks
+const innerWidth = computed(() => Math.max(0, responsiveWidth.value - margin.left - margin.right));
+const innerHeight = computed(() => Math.max(0, responsiveHeight.value - margin.top - margin.bottom));
 // Compute cell sizes based on chart dimensions
 const cellWidth = computed(() => {
   return processedData.value.constraints.length > 0
-    ? innerWidth.value / processedData.value.constraints.length
+    ? Math.max(0, innerWidth.value / processedData.value.constraints.length)
     : 0;
 });
 
 const cellHeight = computed(() => {
   return processedData.value.properties.length > 0
-    ? innerHeight.value / processedData.value.properties.length
+    ? Math.max(0, innerHeight.value / processedData.value.properties.length)
     : 0;
 });
 
