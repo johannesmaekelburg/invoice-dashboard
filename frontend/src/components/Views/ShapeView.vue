@@ -1,5 +1,20 @@
 <template>
   <div class="shape-view p-4">
+    <!-- Loading State -->
+    <div v-if="loading" class="text-center py-20">
+      <p class="text-gray-600 text-lg">Loading shape details...</p>
+    </div>
+
+    <!-- Error State -->
+    <div v-else-if="error" class="text-center py-20">
+      <p class="text-red-600 text-lg">{{ error }}</p>
+      <button @click="loadShapeData(route.params.shapeId)" class="mt-4 px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600">
+        Retry
+      </button>
+    </div>
+
+    <!-- Main Content -->
+    <div v-else>
     <!-- Header Section with Horizontal Bar -->
     <div class="header-section bg-gray-100 p-4 rounded mb-6 shadow flex items-center justify-between">
   <!-- Left: Breadcrumb Button -->
@@ -92,7 +107,8 @@
     </div>
 
     <!-- Violations Table -->
-    <ShapesTable class="bg-white shadow rounded-lg p-6 mt-8" />
+    <ShapesTable :nodeShape="shapeName" class="bg-white shadow rounded-lg p-6 mt-8" />
+    </div>
   </div>
 </template>
 
@@ -140,16 +156,52 @@ import ParetoChart from "./../Charts/ParetoChart.vue";
 import ShapesTable from "./../Reusable/ShapesTable.vue";
 import GaugeChart from "./../Charts/GaugeChart.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import {
+  getViolationCountForNodeShape,
+  getViolatedFocusNodesCountForNodeShape,
+  getPropertyPathsCountForNodeShape,
+  getConstraintCountForNodeShape,
+  getViolationsPerConstraintTypeForPropertyShape,
+  getShapeDefinition,
+  getValidationDetailsReport
+} from '../../services/api.js';
 
 const route = useRoute();
 const router = useRouter();
 
 const shapeName = ref("");
 const shapeDefinition = ref("");
-const totalViolations = ref(42);
-const affectedFocusNodes = ref(15);
-const affectedPropertyPaths = ref(8);
-const constraintsTriggered = ref(5);
+const totalViolations = ref(0);
+const affectedFocusNodes = ref(0);
+const loading = ref(false);
+const error = ref(null);
+
+// Prefixes for URI formatting (same as MainContent.vue)
+const prefixes = ref({});
+
+// Helper function to format URIs using prefixes (same as MainContent.vue)
+const formatURI = (uri) => {
+  if (!uri || typeof uri !== "string") return uri;
+
+  let matchedPrefix = null;
+  let matchedNamespace = null;
+
+  for (const [prefix, namespace] of Object.entries(prefixes.value)) {
+    if (uri.startsWith(namespace) && (!matchedNamespace || namespace.length > matchedNamespace.length)) {
+      matchedPrefix = prefix;
+      matchedNamespace = namespace;
+    }
+  }
+
+  if (matchedPrefix) {
+    return `${matchedPrefix}:${uri.slice(matchedNamespace.length)}`;
+  }
+
+  return uri;
+};
+
+const affectedPropertyPaths = ref(0);
+const constraintsTriggered = ref(0);
 const healthScore = ref(70);
 const showDefinition = ref(false);
 
@@ -302,52 +354,86 @@ const paretoData = ref({
   values: [20, 30, 50],
 });
 
-const metrics = ref([
-  { id: "violations", label: "Total Violations", value: totalViolations, titleMaxViolated: "", maxViolated: ""},
-  { id: "focus-nodes", label: "Focus Nodes", value: affectedFocusNodes, titleMaxViolated: "Most Focus Node", maxViolated: "db:PGA_Tour"},
-  { id: "property-paths", label: "Property Paths", value: affectedPropertyPaths, titleMaxViolated: "Most Property Path", maxViolated: " rdf:type"},
-  { id: "constraints", label: "Constraints Triggered", value: constraintsTriggered, titleMaxViolated: "Most triggered Constrain", maxViolated: "sh:in"},
+const metrics = computed(() => [
+  { id: "violations", label: "Total Violations", value: totalViolations.value, titleMaxViolated: "", maxViolated: ""},
+  { id: "focus-nodes", label: "Focus Nodes", value: affectedFocusNodes.value, titleMaxViolated: "Most Focus Node", maxViolated: "db:PGA_Tour"},
+  { id: "property-paths", label: "Property Paths", value: affectedPropertyPaths.value, titleMaxViolated: "Most Property Path", maxViolated: " rdf:type"},
+  { id: "constraints", label: "Constraints Triggered", value: constraintsTriggered.value, titleMaxViolated: "Most triggered Constraint", maxViolated: "sh:in"},
 ]);
 
 const toggleDefinition = () => {
   showDefinition.value = !showDefinition.value;
 };
 
+// Load shape data from API
+const loadShapeData = async (shapeId) => {
+  loading.value = true;
+  error.value = null;
+
+  try {
+    // First, fetch prefixes from validation details
+    const prefixData = await getValidationDetailsReport(1, 0);
+    prefixes.value = prefixData["@prefixes"] || {};
+
+    // Fetch all data in parallel
+    const [
+      violationsData,
+      focusNodesData,
+      propertyPathsData,
+      constraintsData,
+      violationsPerConstraintData,
+      definitionData
+    ] = await Promise.all([
+      getViolationCountForNodeShape(shapeId),
+      getViolatedFocusNodesCountForNodeShape(shapeId),
+      getPropertyPathsCountForNodeShape(shapeId),
+      getConstraintCountForNodeShape(shapeId),
+      getViolationsPerConstraintTypeForPropertyShape(shapeId),
+      getShapeDefinition(shapeId).catch(() => null)
+    ]);
+
+    // Update refs with API data - format the shapeName with prefix
+    shapeName.value = formatURI(shapeId);
+    totalViolations.value = violationsData.violationCount || 0;
+    affectedFocusNodes.value = focusNodesData.violatedFocusNodesCount || 0;
+    affectedPropertyPaths.value = propertyPathsData.propertyPathCount || 0;
+    constraintsTriggered.value = constraintsData.constraintCount || 0;
+    
+    // Process definition data - backend returns shape data keyed by shape URI
+    if (definitionData && definitionData[shapeId]) {
+      const shapeData = definitionData[shapeId];
+      shapeDefinition.value = JSON.stringify(shapeData, null, 2);
+    } else {
+      shapeDefinition.value = "Definition not available";
+    }
+
+    // Update heatmap data
+    if (violationsPerConstraintData.propertyShapes) {
+      heatmapData26.value = violationsPerConstraintData.propertyShapes;
+    }
+
+    console.log('Shape data loaded successfully:', {
+      shapeName: shapeName.value,
+      violations: totalViolations.value,
+      focusNodes: affectedFocusNodes.value
+    });
+
+  } catch (err) {
+    console.error('Error loading shape data:', err);
+    error.value = 'Failed to load shape data. Please try again.';
+  } finally {
+    loading.value = false;
+  }
+};
+
 onMounted(() => {
   const shapeId = route.params.shapeId;
-
-  console.log("Retrieved shapeId:", shapeId); // Debugging Log
-  const shapes = {
-    26: {
-      name: 'shs:StadiumShape',
-      definition: `@prefix sh: <sh:> . 
-                    @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-                    @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-                    @prefix ex: <http://example.org/> .
-
-                    ex:AgeShape
-                        a sh:NodeShape ;
-                        sh:targetClass foaf:Person ;  
-                        sh:property [
-                            sh:path foaf:age ;        
-                            sh:datatype xsd:integer ; 
-                            sh:minInclusive 0 ;       
-                            sh:message "Age must be a non-negative integer." ;
-                        ] .`,
-      violations: 42,
-    },
-    2: {
-      name: "AddressShape",
-      definition: "PREFIX ex: <http://example.org/> ...",
-      violations: 18,
-    },
-  };
-  const shape = shapes[shapeId];
-
-  if (shape) {
-    shapeName.value = shape.name;
-    shapeDefinition.value = shape.definition;
-    totalViolations.value = shape.violations;
+  console.log("Retrieved shapeId:", shapeId);
+  
+  if (shapeId) {
+    loadShapeData(shapeId);
+  } else {
+    error.value = "No shape ID provided";
   }
 });
 

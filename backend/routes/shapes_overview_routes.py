@@ -133,7 +133,7 @@ def get_shapes_count_in_graph():
     try:
         graph_uri = request.args.get("graph_uri", default="http://ex.org/ShapesGraph")
         result = get_number_of_node_shapes(graph_uri)
-        return jsonify(result)
+        return jsonify({'nodeShapeCount': result})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
@@ -361,5 +361,9 @@ def get_node_shape_details():
         
         result = get_node_shape_details_table(limit=limit, offset=offset)
         return jsonify({'nodeShapes': result}), 200
+    except RuntimeError as e:
+        # Handle specific runtime errors from the service
+        return jsonify({'error': f'Failed to retrieve node shape details: {str(e)}'}), 500
     except Exception as e:
-        return jsonify({'error': str(e)}), 400
+        # Handle all other exceptions
+        return jsonify({'error': f'An unexpected error occurred: {str(e)}'}), 500

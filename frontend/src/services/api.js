@@ -212,3 +212,164 @@ export async function getViolationsPerPath() {
 export async function getViolationsPerFocusNode() {
   return apiRequest('/homepage/validation-report/focus-nodes/violations');
 }
+
+// ============================================================================
+// Shapes Overview API Endpoints
+// ============================================================================
+
+/**
+ * Get property shapes for a specific node shape
+ * @param {string} nodeShape - Node shape URI
+ * @param {number} [limit] - Optional limit for pagination
+ * @param {number} [offset] - Optional offset for pagination
+ * @returns {Promise<{nodeShape: string, propertyShapes: Array<{PropertyShapeName: string, NumViolations: number, NumConstraints: number, MostViolatedConstraint: string}>}>}
+ */
+export async function getPropertyShapesForNodeShape(nodeShape, limit, offset) {
+  let url = `/overview/node-shape/property-shapes?node_shape=${encodeURIComponent(nodeShape)}`;
+  if (limit !== undefined) url += `&limit=${limit}`;
+  if (offset !== undefined) url += `&offset=${offset}`;
+  return apiRequest(url);
+}
+
+/**
+ * Get total number of node shapes in shapes graph
+ * @param {string} [graphUri] - Optional shapes graph URI
+ * @returns {Promise<{nodeShapeCount: number}>}
+ */
+export async function getNodeShapesCountInGraph(graphUri) {
+  const params = graphUri ? `?graph_uri=${encodeURIComponent(graphUri)}` : '';
+  return apiRequest(`/overview/shapes/graph/count${params}`);
+}
+
+/**
+ * Get number of node shapes with violations
+ * @param {string} [shapesGraphUri] - Optional shapes graph URI
+ * @param {string} [validationReportUri] - Optional validation report URI
+ * @returns {Promise<{nodeShapesWithViolationsCount: number}>}
+ */
+export async function getNodeShapesWithViolationsCountOverview(shapesGraphUri, validationReportUri) {
+  let url = '/overview/shapes/violations/count';
+  const params = new URLSearchParams();
+  if (shapesGraphUri) params.append('shapes_graph_uri', shapesGraphUri);
+  if (validationReportUri) params.append('validation_report_uri', validationReportUri);
+  const queryString = params.toString();
+  return apiRequest(queryString ? `${url}?${queryString}` : url);
+}
+
+/**
+ * Get maximum violations for any node shape
+ * @returns {Promise<{nodeShape: string, violationCount: number}>}
+ */
+export async function getMaxViolationsForNodeShape() {
+  return apiRequest('/overview/violations/max');
+}
+
+/**
+ * Get average violations across node shapes
+ * @returns {Promise<{averageViolations: number}>}
+ */
+export async function getAverageViolationsForNodeShapes() {
+  return apiRequest('/overview/violations/average');
+}
+
+/**
+ * Get distribution of violations per constraint (histogram data)
+ * @param {number} [numBins=10] - Number of bins for histogram
+ * @returns {Promise<{labels: string[], datasets: Array}>}
+ */
+export async function getViolationsDistribution(numBins = 10) {
+  return apiRequest(`/overview/violations-distribution?num_bins=${numBins}`);
+}
+
+/**
+ * Get correlation data between constraints and violations
+ * @returns {Promise<Array<{violation_entropy: number, num_violations: number, num_constraints: number}>>}
+ */
+export async function getCorrelationData() {
+  return apiRequest('/overview/correlation');
+}
+
+/**
+ * Get node shape details table
+ * @param {number} [limit] - Optional limit for pagination
+ * @param {number} [offset] - Optional offset for pagination
+ * @returns {Promise<{nodeShapes: Array}>}
+ */
+export async function getNodeShapeDetailsTable(limit, offset) {
+  let url = '/overview/shapes/details';
+  const params = new URLSearchParams();
+  if (limit !== undefined) params.append('limit', limit);
+  if (offset !== undefined) params.append('offset', offset);
+  const queryString = params.toString();
+  return apiRequest(queryString ? `${url}?${queryString}` : url);
+}
+
+// ============================================================================
+// Shape View API Endpoints
+// ============================================================================
+
+/**
+ * Get violation count for a specific node shape
+ * @param {string} nodeShapeName - Node shape name/URI
+ * @returns {Promise<{nodeShape: string, violationCount: number}>}
+ */
+export async function getViolationCountForNodeShape(nodeShapeName) {
+  return apiRequest(`/shape_view/violations/node-shape/count?nodeshape_name=${encodeURIComponent(nodeShapeName)}`);
+}
+
+/**
+ * Get count of violated focus nodes for a node shape
+ * @param {string} nodeShape - Node shape URI
+ * @returns {Promise<{nodeShape: string, violatedFocusNodesCount: number}>}
+ */
+export async function getViolatedFocusNodesCountForNodeShape(nodeShape) {
+  return apiRequest(`/shape_view/violations/node-shape/focus-nodes/count?node_shape=${encodeURIComponent(nodeShape)}`);
+}
+
+/**
+ * Get property path count for a node shape
+ * @param {string} nodeShape - Node shape URI
+ * @returns {Promise<{nodeShape: string, propertyPathCount: number}>}
+ */
+export async function getPropertyPathsCountForNodeShape(nodeShape) {
+  return apiRequest(`/shape_view/node-shape/property-paths/count?node_shape=${encodeURIComponent(nodeShape)}`);
+}
+
+/**
+ * Get constraint count for a node shape
+ * @param {string} nodeShape - Node shape URI
+ * @returns {Promise<{nodeShape: string, constraintCount: number}>}
+ */
+export async function getConstraintCountForNodeShape(nodeShape) {
+  return apiRequest(`/shape_view/node-shape/constraints/count?node_shape=${encodeURIComponent(nodeShape)}`);
+}
+
+/**
+ * Get violations per constraint type for property shapes in a node shape
+ * @param {string} nodeShape - Node shape URI
+ * @returns {Promise<{nodeShape: string, propertyShapes: Array}>}
+ */
+export async function getViolationsPerConstraintTypeForPropertyShape(nodeShape) {
+  return apiRequest(`/shape_view/violations/property-shapes/constraint-types?node_shape=${encodeURIComponent(nodeShape)}`);
+}
+
+/**
+ * Get constraints count for property shapes in a node shape
+ * @param {string} nodeShapeName - Node shape name/URI
+ * @returns {Promise<{nodeShape: string, propertyShapesConstraints: Array}>}
+ */
+export async function getConstraintsCountForPropertyShapes(nodeShapeName) {
+  return apiRequest(`/shape_view/property-shapes/constraints/count?nodeshape_name=${encodeURIComponent(nodeShapeName)}`);
+}
+
+/**
+ * Get shape definition from shapes graph
+ * @param {string} nodeShape - Node shape URI
+ * @returns {Promise<{nodeShape: string, definition: string}>}
+ */
+export async function getShapeDefinition(nodeShape) {
+  return apiRequest('/overview/shapes/graph/details', {
+    method: 'POST',
+    body: JSON.stringify({ node_shape_names: [nodeShape] })
+  });
+}

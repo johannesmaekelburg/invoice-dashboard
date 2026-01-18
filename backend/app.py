@@ -62,5 +62,19 @@ def serve_index():
         print(f"File not found: {index_path}")
         abort(404)
 
+# Catch-all route to serve index.html for Vue Router (must be last)
+@app.route('/<path:path>')
+def catch_all(path):
+    # Check if it's a request for a static file
+    file_path = os.path.join(STATIC_FOLDER, path)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return send_file(file_path)
+    # Otherwise, serve index.html for Vue Router
+    index_path = os.path.join(STATIC_FOLDER, 'index.html')
+    if os.path.exists(index_path):
+        return send_file(index_path)
+    else:
+        abort(404)
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=80)

@@ -1,5 +1,20 @@
 <template>
   <div class="shape-overview p-4">
+    <!-- Loading State -->
+    <div v-if="loading" class="text-center py-20">
+      <p class="text-gray-600 text-lg">Loading shapes overview...</p>
+    </div>
+
+    <!-- Error State -->
+    <div v-else-if="error" class="text-center py-20">
+      <p class="text-red-600 text-lg">{{ error }}</p>
+      <button @click="loadOverviewData" class="mt-4 px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600">
+        Retry
+      </button>
+    </div>
+
+    <!-- Main Content -->
+    <div v-else>
     <!-- Tags Section -->
     <div class="grid grid-cols-4 gap-4 mb-4">
       <div
@@ -99,6 +114,7 @@
         </button>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -135,9 +151,47 @@
 // Importing components
 import HistogramChart from './../Charts/HistogramChart.vue';
 import ScatterPlotChart from './../Charts/ScatterPlotChart.vue';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { calculateShannonEntropy } from "./../../utils/utils"; // Assume you have this utility function
+import { calculateShannonEntropy } from "./../../utils/utils";
+import {
+  getNodeShapesCountInGraph,
+  getNodeShapesWithViolationsCountOverview,
+  getMaxViolationsForNodeShape,
+  getAverageViolationsForNodeShapes,
+  getViolationsDistribution,
+  getCorrelationData,
+  getNodeShapeDetailsTable,
+  getValidationDetailsReport
+} from '../../services/api.js';
+
+// State
+const loading = ref(false);
+const error = ref(null);
+
+// Prefixes for URI formatting (same as MainContent.vue)
+const prefixes = ref({});
+
+// Helper function to format URIs using prefixes (same as MainContent.vue)
+const formatURI = (uri) => {
+  if (!uri || typeof uri !== "string") return uri;
+
+  let matchedPrefix = null;
+  let matchedNamespace = null;
+
+  for (const [prefix, namespace] of Object.entries(prefixes.value)) {
+    if (uri.startsWith(namespace) && (!matchedNamespace || namespace.length > matchedNamespace.length)) {
+      matchedPrefix = prefix;
+      matchedNamespace = namespace;
+    }
+  }
+
+  if (matchedPrefix) {
+    return `${matchedPrefix}:${uri.slice(matchedNamespace.length)}`;
+  }
+
+  return uri;
+};
 
 const shapeViolations2 = ref([
   { name: "PersonShape", violations: { "sh:minCount": 20, "sh:datatype": 10 }, totalViolations: 30, constraints: 10 },
@@ -220,59 +274,39 @@ const realViolations = ref([
 
 const shapeViolations = computed(() => [...shapeViolations2.value, ...zeroViolationShapes.value]);
 
+// Scatter plot data - will be loaded from API
+const coveragePlotData = ref({
+  datasets: [{
+    label: "Shapes",
+    data: []
+  }]
+});
 
-const coveragePlotData = computed(() => ({
-  datasets: [
-    {
-      label: "Shapes",
-      data: realViolations.value.map((shape) => ({
-        x: shape.num_constraints,
-        y: shape.num_violations / shape.num_constraints,
-        label: "",
-        hasZeroViolations: shape.num_violations === 0,
-      }))
-    },
-  ],
-}))
-
-
-const scatterPlotData = computed(() => ({
-  datasets: [
-    {
-      label: "Shapes",
-      data: realViolations.value.map((shape) => ({
-        x: shape.violation_entropy,
-        y: shape.num_violations / shape.num_constraints,
-        label: "",
-      }))
-    },
-  ],
-}));
+const scatterPlotData = ref({
+  datasets: [{
+    label: "Shapes",
+    data: []
+  }]
+});
 
 
 // Router for navigation
 const router = useRouter();
 
-// Mock data for tags
-const tags = [
-  { title: "Total Node Shapes", value: 30 },
-  { title: "Node Shapes with Violations (%)", value: "90%" },
-  { title: "Max Violations per Node Shape", value: 2379 },
-  { title: "Avg Violations per Node Shape", value: 913.07 },
-];
+// Tags data - will be loaded from API
+const tags = ref([
+  { title: "Total Node Shapes", value: 0 },
+  { title: "Node Shapes with Violations (%)", value: "0%" },
+  { title: "Max Violations per Node Shape", value: 0 },
+  { title: "Avg Violations per Node Shape", value: 0 },
+]);
 
 const normalizedViolationBins = [0, 0.5, 1, 1.5, 2, 2.5, 3]; // Define bins for the histogram
 
-
+// Chart data - will be loaded from API
 const normalizedHistogramViolationData = ref({
-  labels: ["0-8", "9-17", "18-26", "27-35", "36-44", "45-53", "54-62", "63-71", "72-80", "81-89"],
-  datasets: [
-    {
-      label: "Violations",
-      data: [5, 4, 6, 5, 3, 2, 3, 0, 1, 1],
-      borderWidth: 1, // Optional: sets the border width of bars
-    },
-  ],
+  labels: [],
+  datasets: []
 });
 
 
@@ -310,45 +344,93 @@ const columns = ref([
   { label: "Violation-to-Constraint Ratio", field: "violationToConstraintRatio" },
 ]);
 
-const shapes = ref([
-  {'id': 26, 'name': 'shs:StadiumShape', 'violations': 2379, 'propertyPaths': 30, 'focusNodes': 118, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 30, 'violationToConstraintRatio': 793.0}, 
-  {'id': 1, 'name': 'shs:AmphibianShape', 'violations': 729, 'propertyPaths': 14, 'focusNodes': 50, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 14, 'violationToConstraintRatio': 364.5},
-  {'id': 2, 'name': 'shs:ComicStripShape', 'violations': 718, 'propertyPaths': 6, 'focusNodes': 42, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 6, 'violationToConstraintRatio': 718.0}, 
-  {'id': 3, 'name': 'shs:CongressmanShape', 'violations': 1896, 'propertyPaths': 48, 'focusNodes': 51, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 48, 'violationToConstraintRatio': 948.0},
-  {'id': 4, 'name': 'shs:ConiferShape', 'violations': 830, 'propertyPaths': 15, 'focusNodes': 50, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 15, 'violationToConstraintRatio': 415.0}, 
-  {'id': 5, 'name': 'shs:CricketTeamShape', 'violations': 1203, 'propertyPaths': 16, 'focusNodes': 53, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 16, 'violationToConstraintRatio': 601.5},
-  {'id': 7, 'name': 'shs:FernShape', 'violations': 576, 'propertyPaths': 15, 'focusNodes': 50, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 15, 'violationToConstraintRatio': 288.0}, 
-  {'id': 8, 'name': 'shs:FootballMatchShape', 'violations': 1283, 'propertyPaths': 16, 'focusNodes': 86, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 16, 'violationToConstraintRatio': 427.67}, 
-  {'id': 9, 'name': 'shs:GolfLeagueShape', 'violations': 384, 'propertyPaths': 12, 'focusNodes': 17, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 12, 'violationToConstraintRatio': 192.0},
-  {'id': 10, 'name': 'shs:HockeyTeamShape', 'violations': 1165, 'propertyPaths': 19, 'focusNodes': 53, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 19, 'violationToConstraintRatio': 388.33}
-]);
+// Table data - will be loaded from API
+const shapes = ref([]);
 
-const shapes2 = ref([
-  {'id': 11, 'name': 'shs:HospitalShape', 'violations': 892, 'propertyPaths': 34, 'focusNodes': 63, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 34, 'violationToConstraintRatio': 446.0},
-  {'id': 12, 'name': 'shs:MossShape', 'violations': 387, 'propertyPaths': 15, 'focusNodes': 51, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 15, 'violationToConstraintRatio': 129.0},
-  {'id': 13, 'name': 'shs:NetballPlayerShape', 'violations': 0, 'propertyPaths': 12, 'focusNodes': 0, 'mostViolatedConstraint': '', 'propertyShapes': 12, 'violationToConstraintRatio': 0.0}, 
-  {'id': 14, 'name': 'shs:RacecourseShape', 'violations': 656, 'propertyPaths': 10, 'focusNodes': 32, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 10, 'violationToConstraintRatio': 328.0}, 
-  {'id': 15, 'name': 'shs:RadioHostShape', 'violations': 732, 'propertyPaths': 14, 'focusNodes': 21, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 14, 'violationToConstraintRatio': 366.0}, 
-  {'id': 16, 'name': 'shs:RoadJunctionShape', 'violations': 642, 'propertyPaths': 15, 'focusNodes': 49, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 15, 'violationToConstraintRatio': 642.0}, 
-  {'id': 17, 'name': 'shs:RoadShape', 'violations': 1452, 'propertyPaths': 40, 'focusNodes': 89, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 40, 'violationToConstraintRatio': 484.0}, 
-  {'id': 18, 'name': 'shs:SeaShape', 'violations': 997, 'propertyPaths': 29, 'focusNodes': 51, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 29, 'violationToConstraintRatio': 498.5}, 
-  {'id': 19, 'name': 'shs:ShipShape', 'violations': 1507, 'propertyPaths': 44, 'focusNodes': 75, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 44, 'violationToConstraintRatio': 376.75}, 
-  {'id': 20, 'name': 'shs:ShoppingMallShape', 'violations': 1086, 'propertyPaths': 38, 'focusNodes': 53, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 38, 'violationToConstraintRatio': 543.0}
-])
+// Load all overview data from API
+const loadOverviewData = async () => {
+  loading.value = true;
+  error.value = null;
 
-const shapes3 = ref([
-{'id': 21, 'name': 'shs:SnookerChampShape', 'violations': 968, 'propertyPaths': 22, 'focusNodes': 31, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 22, 'violationToConstraintRatio': 484.0}, 
-{'id': 22, 'name': 'shs:SnookerPlayerShape', 'violations': 1941, 'propertyPaths': 21, 'focusNodes': 80, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 21, 'violationToConstraintRatio': 647.0}, 
-{'id': 23, 'name': 'shs:SnookerWorldRankingShape', 'violations': 0, 'propertyPaths': 9, 'focusNodes': 0, 'mostViolatedConstraint': '', 'propertyShapes': 9, 'violationToConstraintRatio': 0.0}, 
-{'id': 24, 'name': 'shs:SoftballLeagueShape', 'violations': 34, 'propertyPaths': 10, 'focusNodes': 2, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 10, 'violationToConstraintRatio': 17.0}, 
-{'id': 25, 'name': 'shs:SpeedwayLeagueShape', 'violations': 41, 'propertyPaths': 10, 'focusNodes': 2, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 10, 'violationToConstraintRatio': 41.0}, 
-{'id': 6, 'name': 'shs:DartsPlayerShape', 'violations': 1045, 'propertyPaths': 11, 'focusNodes': 50, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 11, 'violationToConstraintRatio': 1045.0},  
-{'id': 27, 'name': 'shs:SumoWrestlerShape', 'violations': 2241, 'propertyPaths': 17, 'focusNodes': 89, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 17, 'violationToConstraintRatio': 1120.5}, 
-{'id': 28, 'name': 'shs:TennisTournamentShape', 'violations': 949, 'propertyPaths': 17, 'focusNodes': 73, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 17, 'violationToConstraintRatio': 316.33}, 
-{'id': 29, 'name': 'shs:TenureShape', 'violations': 0, 'propertyPaths': 32, 'focusNodes': 0, 'mostViolatedConstraint': '', 'propertyShapes': 32, 'violationToConstraintRatio': 0.0}, 
-{'id': 30, 'name': 'shs:TunnelShape', 'violations': 659, 'propertyPaths': 20, 'focusNodes': 41, 'mostViolatedConstraint': 'sh:InConstraintComponent', 'propertyShapes': 20, 'violationToConstraintRatio': 329.5}
+  try {
+    // First, fetch prefixes from validation details (same as MainContent.vue)
+    const prefixData = await getValidationDetailsReport(1, 0);
+    prefixes.value = prefixData["@prefixes"] || {};
 
-])
+    // Load tags data in parallel
+    const [totalShapesData, shapesWithViolationsData, maxViolationsData, avgViolationsData] = 
+      await Promise.all([
+        getNodeShapesCountInGraph(),
+        getNodeShapesWithViolationsCountOverview(),
+        getMaxViolationsForNodeShape(),
+        getAverageViolationsForNodeShapes()
+      ]);
+
+    // Update tags
+    const totalShapes = totalShapesData.nodeShapeCount || 0;
+    tags.value[0].value = totalShapes;
+    
+    const violationsCount = shapesWithViolationsData.nodeShapesWithViolationsCount || 0;
+    const percentage = totalShapes > 0 
+      ? ((violationsCount / totalShapes) * 100).toFixed(1)
+      : 0;
+    tags.value[1].value = `${percentage}%`;
+    
+    tags.value[2].value = maxViolationsData.violationCount || 0;
+    tags.value[3].value = avgViolationsData.averageViolations || 0;
+
+    // Load chart data in parallel
+    const [histogramData, correlationData, tableData] = await Promise.all([
+      getViolationsDistribution(10),
+      getCorrelationData(),
+      getNodeShapeDetailsTable()
+    ]);
+
+    // Update histogram
+    normalizedHistogramViolationData.value = histogramData;
+
+    // Update scatter plots from correlation data
+    coveragePlotData.value = {
+      datasets: [{
+        label: "Shapes",
+        data: correlationData.map(item => ({
+          x: item.num_constraints,
+          y: item.num_constraints > 0 ? item.num_violations / item.num_constraints : 0,
+          label: "",
+          hasZeroViolations: item.num_violations === 0
+        }))
+      }]
+    };
+
+    scatterPlotData.value = {
+      datasets: [{
+        label: "Shapes",
+        data: correlationData.map(item => ({
+          x: item.violation_entropy,
+          y: item.num_constraints > 0 ? item.num_violations / item.num_constraints : 0,
+          label: ""
+        }))
+      }]
+    };
+
+    // Format URIs with prefixes AND store original
+    shapes.value = (tableData.nodeShapes || []).map(shape => ({
+      ...shape,
+      originalName: shape.name,  // Keep full URI for navigation
+      name: formatURI(shape.name),  // Display prefixed version
+      mostViolatedConstraint: formatURI(shape.mostViolatedConstraint)
+    }));
+
+    // Update table data
+    shapes.value = tableData.nodeShapes || [];
+
+  } catch (err) {
+    console.error('Error loading overview data:', err);
+    error.value = 'Failed to load overview data. Please try again.';
+  } finally {
+    loading.value = false;
+  }
+};
 const currentPage = ref(1);
 const pageSize = ref(10);
 const totalPages = computed(() => Math.ceil(shapes.value.length / pageSize.value));
@@ -377,8 +459,9 @@ const nextPage = () => {
   if (currentPage.value < totalPages.value) currentPage.value++;
 };
 
+// Use originalName (full URI) for navigation, not the prefixed name
 const goToShape = (shape) => {
-  router.push({ name: "ShapeView", params: { shapeId: shape.id } });
+  router.push({ name: "ShapeView", params: { shapeId: shape.name } });
 };
 
 const sortKey = ref("");
@@ -392,6 +475,11 @@ const sortColumn = (column) => {
     sortOrder.value = "asc";
   }
 };
+
+// Load data on mount
+onMounted(() => {
+  loadOverviewData();
+});
 </script>
 
 
