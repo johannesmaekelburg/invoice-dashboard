@@ -23,7 +23,6 @@ SHACL_FEATURES = [
     "http://www.w3.org/ns/shacl#class",
     "http://www.w3.org/ns/shacl#datatype",
     "http://www.w3.org/ns/shacl#nodeKind",  # Correct SHACL spelling
-    "http://www.w3.org/ns/shacl#NodeKind",  # Common typo - kept for compatibility
     
     # 4.2 Cardinality Constraint Components
     "http://www.w3.org/ns/shacl#minCount",
@@ -57,7 +56,6 @@ SHACL_FEATURES = [
     
     # 4.7 Shape-based Constraint Components
     "http://www.w3.org/ns/shacl#node",
-    "http://www.w3.org/ns/shacl#property",  # Added
     "http://www.w3.org/ns/shacl#qualifiedValueShape",  # Added
     "http://www.w3.org/ns/shacl#qualifiedMinCount",
     "http://www.w3.org/ns/shacl#qualifiedMaxCount",

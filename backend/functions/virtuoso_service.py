@@ -4,6 +4,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import ENDPOINT_URL, SHAPES_GRAPH_URI, VALIDATION_REPORT_URI, DATA_DIR_IN_DOCKER, DOCKER_CONTAINER_NAME
 from SPARQLWrapper import SPARQLWrapper, JSON
+from .prefix_utils import cache_prefixes, extract_prefixes_from_sparql_graphs
 import os 
 
 """
@@ -41,13 +42,6 @@ Configuration:
 """
 
 
-# Global variables
-ENDPOINT_URL = "http://localhost:8890/sparql"
-SHAPES_GRAPH_URI = "http://ex.org/ShapesGraph"
-VALIDATION_REPORT_URI = "http://ex.org/ValidationReport"
-DATA_DIR_IN_DOCKER = "/data"  # Directory in Docker container
-DOCKER_CONTAINER_NAME = "virtuoso"  # Name of the Docker container
-
 # ############ TODO to fix to use global variables #################
 
 def clear_graphs_only():
@@ -59,7 +53,6 @@ def clear_graphs_only():
         FileNotFoundError: If ISQL or Docker is not found.
     """
 
-    DOCKER_CONTAINER_NAME = "virtuoso"  # Replace with actual name
     isql_port = "1111"
     username = "dba"
     password = "dba"
@@ -176,7 +169,7 @@ def load_graphs(directory: str, shapes_file: str, report_file: str):
         
         
 #clear_graphs_only()
-load_graphs("shacl", r"schema2_updated.ttl", r"LKG3_Schema2_result.ttl")
+# load_graphs("shacl", r"shape30_clean.ttl", r"EnDe50_result__utf8.ttl")
 
 def get_all_shapes_names(graph_uri: str = "http://ex.org/ValidationReport") -> list:
     """

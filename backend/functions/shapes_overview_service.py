@@ -1068,102 +1068,102 @@ def get_node_shape_with_most_unique_constraints(validation_report_uri: str = VAL
 
 
 
-def benchmark_function_execution_2(func, runs=10, csv_filename="execution_time_use_case_2_lkg3_schema2.csv"):
-#def benchmark_function_execution(func, runs=10, csv_filename="execution_time_test.csv"):
-    """
-    Measures the execution time of a function over multiple runs in milliseconds,
-    and saves results to a CSV.
+# def benchmark_function_execution_2(func, runs=10, csv_filename="execution_time_use_case_2_lkg3_schema2.csv"):
+# #def benchmark_function_execution(func, runs=10, csv_filename="execution_time_test.csv"):
+#     """
+#     Measures the execution time of a function over multiple runs in milliseconds,
+#     and saves results to a CSV.
 
-    Parameters:
-        func (callable): The function to benchmark.
-        runs (int): Number of times to run the function.
-        csv_filename (str): Name of the CSV file to save results.
+#     Parameters:
+#         func (callable): The function to benchmark.
+#         runs (int): Number of times to run the function.
+#         csv_filename (str): Name of the CSV file to save results.
 
-    Returns:
-        dict: A dictionary with 'times_ms', 'average_ms', and 'results'.
-    """
-    execution_times_ms = []
-    results = []
+#     Returns:
+#         dict: A dictionary with 'times_ms', 'average_ms', and 'results'.
+#     """
+#     execution_times_ms = []
+#     results = []
 
-    for i in range(runs):
-        start_time = time.time()
-        result = func()
-        end_time = time.time()
+#     for i in range(runs):
+#         start_time = time.time()
+#         result = func()
+#         end_time = time.time()
 
-        elapsed_ms = (end_time - start_time) * 1000  # Convert to milliseconds
-        execution_times_ms.append(elapsed_ms)
-        results.append(result)
-        print(f"Run {i+1}: {elapsed_ms:.2f} ms")
+#         elapsed_ms = (end_time - start_time) * 1000  # Convert to milliseconds
+#         execution_times_ms.append(elapsed_ms)
+#         results.append(result)
+#         print(f"Run {i+1}: {elapsed_ms:.2f} ms")
 
-    average_ms = sum(execution_times_ms) / runs
-    print(f"\nAverage execution time: {average_ms:.2f} ms")
+#     average_ms = sum(execution_times_ms) / runs
+#     print(f"\nAverage execution time: {average_ms:.2f} ms")
 
-    # Save to CSV
-    with open(csv_filename, mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(["Run", "Execution Time (ms)"])
-        for idx, t in enumerate(execution_times_ms, start=1):
-            writer.writerow([idx, t])
-        writer.writerow(["Average", average_ms])
+#     # Save to CSV
+#     with open(csv_filename, mode='w', newline='') as file:
+#         writer = csv.writer(file)
+#         writer.writerow(["Run", "Execution Time (ms)"])
+#         for idx, t in enumerate(execution_times_ms, start=1):
+#             writer.writerow([idx, t])
+#         writer.writerow(["Average", average_ms])
 
-    print(f"\nAll execution times and average saved to '{csv_filename}'")
+#     print(f"\nAll execution times and average saved to '{csv_filename}'")
 
-    return {
-        "times_ms": execution_times_ms,
-        "average_ms": average_ms,
-        "results": results
-    }
+#     return {
+#         "times_ms": execution_times_ms,
+#         "average_ms": average_ms,
+#         "results": results
+#     }
     
-def benchmark_function_execution_3(func, runs=10, csv_filename="execution_time_use_case_2_lkg3_schema2.csv"):
-#def benchmark_function_execution(func, runs=10, csv_filename="execution_time_test.csv"):
-    """
-    Measures the execution time of a function over multiple runs in milliseconds,
-    and saves results to a CSV.
+# def benchmark_function_execution_3(func, runs=10, csv_filename="execution_time_use_case_2_lkg3_schema2.csv"):
+# #def benchmark_function_execution(func, runs=10, csv_filename="execution_time_test.csv"):
+#     """
+#     Measures the execution time of a function over multiple runs in milliseconds,
+#     and saves results to a CSV.
 
-    Parameters:
-        func (callable): The function to benchmark.
-        runs (int): Number of times to run the function.
-        csv_filename (str): Name of the CSV file to save results.
+#     Parameters:
+#         func (callable): The function to benchmark.
+#         runs (int): Number of times to run the function.
+#         csv_filename (str): Name of the CSV file to save results.
 
-    Returns:
-        dict: A dictionary with 'times_ms', 'average_ms', and 'results'.
-    """
-    execution_times_ms = []
-    results = []
+#     Returns:
+#         dict: A dictionary with 'times_ms', 'average_ms', and 'results'.
+#     """
+#     execution_times_ms = []
+#     results = []
 
-    for i in range(runs):
-        start_time = time.time()
-        result = func()
-        end_time = time.time()
+#     for i in range(runs):
+#         start_time = time.time()
+#         result = func()
+#         end_time = time.time()
 
-        elapsed_ms = (end_time - start_time) * 1000  # Convert to milliseconds
-        execution_times_ms.append(elapsed_ms)
-        results.append(result)
-        print(f"Run {i+1}: {elapsed_ms:.2f} ms")
+#         elapsed_ms = (end_time - start_time) * 1000  # Convert to milliseconds
+#         execution_times_ms.append(elapsed_ms)
+#         results.append(result)
+#         print(f"Run {i+1}: {elapsed_ms:.2f} ms")
 
-    average_ms = sum(execution_times_ms) / runs
-    print(f"\nAverage execution time: {average_ms:.2f} ms")
+#     average_ms = sum(execution_times_ms) / runs
+#     print(f"\nAverage execution time: {average_ms:.2f} ms")
 
-    # Save to CSV
-    with open(csv_filename, mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(["Run", "Execution Time (ms)"])
-        for idx, t in enumerate(execution_times_ms, start=1):
-            writer.writerow([idx, t])
-        writer.writerow(["Average", average_ms])
+#     # Save to CSV
+#     with open(csv_filename, mode='w', newline='') as file:
+#         writer = csv.writer(file)
+#         writer.writerow(["Run", "Execution Time (ms)"])
+#         for idx, t in enumerate(execution_times_ms, start=1):
+#             writer.writerow([idx, t])
+#         writer.writerow(["Average", average_ms])
 
-    print(f"\nAll execution times and average saved to '{csv_filename}'")
+#     print(f"\nAll execution times and average saved to '{csv_filename}'")
 
-    return {
-        "times_ms": execution_times_ms,
-        "average_ms": average_ms,
-        "results": results
-    }
+#     return {
+#         "times_ms": execution_times_ms,
+#         "average_ms": average_ms,
+#         "results": results
+#     }
 #print(get_correlation_of_constraints_and_violations())
 # Execution Queries Use Case 2     
-benchmark_function_execution_2(get_correlation_of_constraints_and_violations)
+# benchmark_function_execution_2(get_correlation_of_constraints_and_violations)
 
 # Execution Queries Use Case 3
-benchmark_function_execution_3(lambda: get_number_of_violations_per_constraint_type_for_property_shape("http://swat.cse.lehigh.edu/onto/univ-bench.owl#CourseShape"))
+# benchmark_function_execution_3(lambda: get_number_of_violations_per_constraint_type_for_property_shape("http://swat.cse.lehigh.edu/onto/univ-bench.owl#CourseShape"))
 
 #print(get_number_of_violations_per_constraint_type_for_property_shape("http://swat.cse.lehigh.edu/onto/univ-bench.owl#CourseShape"))

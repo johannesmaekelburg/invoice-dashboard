@@ -8,6 +8,7 @@ import math
 from bs4 import BeautifulSoup
 import time
 import csv
+from .prefix_utils import get_cached_prefixes
 
 """
 Homepage Service Module
@@ -145,15 +146,18 @@ def get_number_of_node_shapes(graph_uri: str = SHAPES_GRAPH_URI) -> int:
 
 def get_number_of_node_shapes_with_violations(shapes_graph_uri: str = SHAPES_GRAPH_URI, validation_report_uri: str = VALIDATION_REPORT_URI) -> int:
     """
-    Query the Virtuoso SPARQL endpoint to calculate how many Node Shapes in the Shapes Graph
-    have at least one violation in the Validation Report.
+    Count how many sh:NodeShape in the Shapes Graph have at least one violation in the Validation Report.
+
+    A NodeShape is counted if there exists a violation with sh:sourceShape pointing to:
+      (a) one of its sh:property property shapes, OR
+      (b) the node shape itself.
 
     Args:
         shapes_graph_uri (str): The URI of the Shapes Graph. Default is "http://ex.org/ShapesGraph".
         validation_report_uri (str): The URI of the Validation Report. Default is "http://ex.org/ValidationReport".
 
     Returns:
-        int: The number of Node Shapes with violations.
+        int: Number of distinct NodeShapes with >= 1 violation.
     """
     # Configure SPARQL query
     sparql = SPARQLWrapper(ENDPOINT_URL)
@@ -161,11 +165,19 @@ def get_number_of_node_shapes_with_violations(shapes_graph_uri: str = SHAPES_GRA
         SELECT (COUNT(DISTINCT ?nodeShape) AS ?violatedNodeShapesCount)
         WHERE {{
             GRAPH <{shapes_graph_uri}> {{
-                ?nodeShape a <http://www.w3.org/ns/shacl#NodeShape> ;
-                           <http://www.w3.org/ns/shacl#property> ?propertyShape .
+                ?nodeShape a <http://www.w3.org/ns/shacl#NodeShape> .
+                OPTIONAL {{
+                    ?nodeShape <http://www.w3.org/ns/shacl#property> ?propertyShape .
+                }}
             }}
             GRAPH <{validation_report_uri}> {{
-                ?violation <http://www.w3.org/ns/shacl#sourceShape> ?propertyShape .
+                {{
+                    ?violation <http://www.w3.org/ns/shacl#sourceShape> ?nodeShape .
+                }}
+                UNION
+                {{
+                    ?violation <http://www.w3.org/ns/shacl#sourceShape> ?propertyShape .
+                }}
             }}
         }}
     """)
@@ -489,7 +501,8 @@ def distribution_of_violations_per_shape(
     violations_data = get_violations_per_node_shape(shapes_graph_uri, validation_report_uri)
 
     # Step 2: Extract the maximum number of violations
-    max_violations = max([item["NumViolations"] for item in violations_data])
+        # Step 2: Extract the maximum number of violations
+    max_violations = max([item["NumViolations"] for item in violations_data]) if violations_data else 0
 
     # Step 3: Calculate the range size and labels
     num_bins = 10  # Number of bins (bars) for the chart
@@ -612,64 +625,35 @@ def distribution_of_violations_per_focus_node(validation_report_uri: str = VALID
 
 def get_prefixes_from_endpoint(endpoint_url: str) -> dict:
     """
-    Retrieve prefixes defined in the SPARQL endpoint using the `nsdecl` query.
+    Retrieve prefixes by discovering URIs from Virtuoso SPARQL endpoint.
+    Extracts namespaces from actual data in the database.
 
     Args:
-        endpoint_url (str): The base URL of the SPARQL endpoint (e.g., http://localhost:8890).
+        endpoint_url (str): The base URL of the SPARQL endpoint (e.g., http://localhost:8890/sparql).
 
     Returns:
         dict: A dictionary of prefixes and their namespaces.
     """
+    from .prefix_utils import extract_prefixes_from_sparql_graphs
+    from config import SHAPES_GRAPH_URI, VALIDATION_REPORT_URI
+    
+    # Always extract prefixes from what's actually in Virtuoso
     try:
-        # Construct the nsdecl URL
-        nsdecl_url = f"{endpoint_url}?help=nsdecl"
-        
-        # Send an HTTP GET request
-        response = requests.get(nsdecl_url)
-        response.raise_for_status()  # Raise an error for HTTP issues
-
-        # Parse the HTML response
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        # Extract prefixes and namespaces
-        prefixes = {}
-        table = soup.find("table")  # Assume prefixes are listed in an HTML table
-        if table:
-            rows = table.find_all("tr")
-            for row in rows[1:]:  # Skip the header row
-                cells = row.find_all("td")
-                if len(cells) == 2:
-                    prefix = cells[0].text.strip()
-                    namespace = cells[1].text.strip()
-                    prefixes[prefix] = namespace
-        else:
-            # Handle plain text response
-            for line in response.text.splitlines():
-                if line.strip() and "\t" in line:  # Assume tab-separated prefix-namespace pairs
-                    prefix, namespace = line.split("\t", 1)
-                    prefixes[prefix.strip()] = namespace.strip()
-
-        # Add commonly used prefixes that might not be in Virtuoso's nsdecl
-        additional_prefixes = {
-            'sh': 'http://www.w3.org/ns/shacl#',
-            'ex': 'http://shaclshapes.org/',
-            'dbo': 'http://dbpedia.org/ontology/',
-            'schema': 'http://schema.org/',
-            'wikidata': 'http://www.wikidata.org/entity/',
-            'geo': 'http://www.w3.org/2003/01/geo/wgs84_pos#',
-            'umbel-rc': 'http://umbel.org/umbel/rc/'
-        }
-        
-        # Only add if not already present
-        for prefix, namespace in additional_prefixes.items():
-            if prefix not in prefixes:
-                prefixes[prefix] = namespace
-
+        prefixes = extract_prefixes_from_sparql_graphs(
+            endpoint_url,
+            [SHAPES_GRAPH_URI, VALIDATION_REPORT_URI]
+        )
         return prefixes
-
     except Exception as e:
-        print(f"Error fetching prefixes from SPARQL endpoint: {e}")
-        return {}
+        print(f"⚠️  Error extracting prefixes from SPARQL endpoint: {e}")
+    
+    # Minimal fallback only if extraction completely fails
+    return {
+        'sh': 'http://www.w3.org/ns/shacl#',
+        'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+        'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+        'shs': 'http://shaclshapes.org/',
+    }
 
 
 def parse_rdf_list(node_id: str, shapes_graph_uri: str) -> list:
@@ -1286,6 +1270,80 @@ def benchmark_function_execution(func, runs=10, csv_filename="execution_time_use
         "average_ms": average_ms,
         "results": results
     }
+
+def debug_check_data():
+    """
+    Debug function to check what data exists in Virtuoso.
+    """
+    sparql = SPARQLWrapper(ENDPOINT_URL)
+    
+    print("=== CHECKING VALIDATION REPORT GRAPH ===")
+    
+    # Check 1: Count all triples
+    sparql.setQuery(f"""
+        SELECT (COUNT(*) AS ?count)
+        FROM <http://ex.org/ValidationReport>
+        WHERE {{ ?s ?p ?o }}
+    """)
+    sparql.setReturnFormat(JSON)
+    result = sparql.query().convert()
+    print(f"Total triples in ValidationReport: {result['results']['bindings'][0]['count']['value']}")
+    
+    # Check 2: Count ValidationResult instances
+    sparql.setQuery(f"""
+        SELECT (COUNT(?v) AS ?count)
+        FROM <http://ex.org/ValidationReport>
+        WHERE {{ ?v a <http://www.w3.org/ns/shacl#ValidationResult> }}
+    """)
+    result = sparql.query().convert()
+    print(f"ValidationResult instances: {result['results']['bindings'][0]['count']['value']}")
+    
+    # Check 3: Sample violation data
+    sparql.setQuery(f"""
+        SELECT ?violation ?p ?o
+        FROM <http://ex.org/ValidationReport>
+        WHERE {{ 
+            ?violation a <http://www.w3.org/ns/shacl#ValidationResult> .
+            ?violation ?p ?o
+        }}
+        LIMIT 10
+    """)
+    result = sparql.query().convert()
+    print(f"\nSample violation predicates:")
+    for r in result['results']['bindings']:
+        print(f"  {r['p']['value']}")
+    
+    print("\n=== CHECKING SHAPES GRAPH ===")
+    
+    # Check 4: Count NodeShapes
+    sparql.setQuery(f"""
+        SELECT (COUNT(?ns) AS ?count)
+        FROM <http://ex.org/ShapesGraph>
+        WHERE {{ ?ns a <http://www.w3.org/ns/shacl#NodeShape> }}
+    """)
+    result = sparql.query().convert()
+    print(f"NodeShape instances: {result['results']['bindings'][0]['count']['value']}")
+    
+    # Check 5: Sample NodeShape with properties
+    sparql.setQuery(f"""
+        SELECT ?nodeShape ?propertyShape
+        FROM <http://ex.org/ShapesGraph>
+        WHERE {{ 
+            ?nodeShape a <http://www.w3.org/ns/shacl#NodeShape> ;
+                      <http://www.w3.org/ns/shacl#property> ?propertyShape .
+        }}
+        LIMIT 5
+    """)
+    result = sparql.query().convert()
+    print(f"\nSample NodeShapes with properties:")
+    for r in result['results']['bindings']:
+        print(f"  NodeShape: {r['nodeShape']['value']}")
+        print(f"  PropertyShape: {r['propertyShape']['value']}")
+
+# Run the debug
+if __name__ == "__main__":
+    debug_check_data()
+
 # print(get_most_violated_node_shape())
 # # Execution Use Case 1    
 # benchmark_function_execution(get_most_violated_node_shape)
