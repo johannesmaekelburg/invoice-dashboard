@@ -340,6 +340,38 @@ export async function getViolatedFocusNodesCountForNodeShape(nodeShape) {
   return apiRequest(`/shape_view/violations/node-shape/focus-nodes/count?node_shape=${encodeURIComponent(nodeShape)}`);
 }
 
+// ============================================================================
+// Invoice API Endpoints
+// ============================================================================
+
+export async function getInvoiceSummary() {
+  return apiRequest('/invoice/summary');
+}
+
+export async function getInvoiceParties() {
+  return apiRequest('/invoice/parties');
+}
+
+export async function getInvoiceItems() {
+  return apiRequest('/invoice/items');
+}
+
+export async function getInvoiceViolationsBySeverity() {
+  return apiRequest('/invoice/violations/by-severity');
+}
+
+export async function getInvoiceViolationsByShape() {
+  return apiRequest('/invoice/violations/by-shape');
+}
+
+export async function getInvoiceViolationsEnriched() {
+  return apiRequest('/invoice/violations/enriched');
+}
+
+export async function getInvoiceCompliance() {
+  return apiRequest('/invoice/compliance');
+}
+
 /**
  * Get property path count for a node shape
  * @param {string} nodeShape - Node shape URI

@@ -13,6 +13,16 @@ Modules:
     virtuoso_service: Core database connectivity and query services
 """
 
+from .invoice_service import (
+    get_invoice_summary,
+    get_invoice_parties,
+    get_invoice_items,
+    get_violations_by_severity,
+    get_violations_by_shape,
+    get_violations_enriched,
+    get_compliance_summary,
+)
+
 from .virtuoso_service import (
     #get_number_of_constraints_for_node_shape,
     get_most_violated_constraint_for_node_shape,

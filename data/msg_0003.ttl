@@ -1,0 +1,441 @@
+@prefix agentRole: <https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole#> .
+@prefix edifact-o: <https://purl.org/edifact/ontology#> .
+@prefix frapo: <http://purl.org/cerif/frapo/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix p2p-o-doc: <https://purl.org/p2p-o/document#> .
+@prefix p2p-o-doc-line: <https://purl.org/p2p-o/documentline#> .
+@prefix p2p-o-inv: <https://purl.org/p2p-o/invoice#> .
+@prefix p2p-o-item: <https://purl.org/p2p-o/item#> .
+@prefix p2p-o-org: <https://purl.org/p2p-o/organization#> .
+@prefix schema1: <http://schema.org/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/4317784000000> a org:FormalOrganization ;
+    agentRole:performsAgentRole <http://example.com/999992>,
+        <http://example.com/999996> ;
+    p2p-o-org:globalLocationNumber 3493769127341 .
+
+<http://example.com/5488888010871> a org:FormalOrganization ;
+    agentRole:performsAgentRole <http://example.com/999991>,
+        <http://example.com/999993>,
+        <http://example.com/999995>,
+        <http://example.com/999997> ;
+    p2p-o-org:globalLocationNumber 7589697174786 .
+
+<http://example.com/8712061990009> a org:FormalOrganization ;
+    agentRole:performsAgentRole <http://example.com/999994>,
+        <http://example.com/999998> ;
+    p2p-o-org:globalLocationNumber 8697190275829 .
+
+<http://example.com/-1> a p2p-o-item:item ;
+    edifact-o:deliveredQuantityWithUnit "403 Tuqklg" ;
+    edifact-o:despatchQuantity "754.8"^^xsd:float ;
+    edifact-o:hasAllowanceAmount "24.4"^^xsd:float ;
+    edifact-o:hasAllowanceReason "Hjvlzw Nrcllog" ;
+    edifact-o:hasInvoiceprice "641.0"^^xsd:float ;
+    edifact-o:hasLineItemAmount "57.1"^^xsd:float ;
+    edifact-o:hasPriceUnit "Ckeiys" ;
+    edifact-o:hasProductIdentification "PID_68248335A04B8E82",
+        "PID_BEEE55F373BC7983" ;
+    edifact-o:hasQuantityUnit "Hsykzn" ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:internationalArticleNumber "50838766508393" ;
+    edifact-o:isItemOf <http://example.com/1> ;
+    edifact-o:itemNumberSupplier "BM536804691" ;
+    edifact-o:unitPriceBasis "407.5"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantity "326.6"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantityUnitOfMeasure "894 Seybbm" ;
+    p2p-o-inv:hasInvoiceLine 4 ;
+    p2p-o-item:itemName "DY® rvudwvbmjmcobz D29c 839g47 gbq" .
+
+<http://example.com/-10> a p2p-o-item:item ;
+    edifact-o:deliveredQuantityWithUnit "013 Lylvru" ;
+    edifact-o:despatchQuantity "188.7"^^xsd:float ;
+    edifact-o:hasAllowanceAmount "74.79"^^xsd:float ;
+    edifact-o:hasAllowanceReason "Hjvlzw Nrcllog" ;
+    edifact-o:hasInvoiceprice "59.41"^^xsd:float ;
+    edifact-o:hasLineItemAmount "24.18"^^xsd:float ;
+    edifact-o:hasPriceUnit "Ckeiys" ;
+    edifact-o:hasProductIdentification "PID_68248335A04B8E82",
+        "PID_BEEE55F373BC7983" ;
+    edifact-o:hasQuantityUnit "Hsykzn" ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:internationalArticleNumber "41677960049072" ;
+    edifact-o:isItemOf <http://example.com/2> ;
+    edifact-o:itemNumberSupplier "96339504" ;
+    edifact-o:unitPriceBasis "407.5"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantity "356.9"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantityUnitOfMeasure "135 Xphxql" ;
+    p2p-o-inv:hasInvoiceLine 8 ;
+    p2p-o-item:itemName "Qtufbdt® Ahyrivgv 8.8i012/05 vryfjx" .
+
+<http://example.com/-11> a p2p-o-item:item ;
+    edifact-o:deliveredQuantityWithUnit "013 Lylvru" ;
+    edifact-o:despatchQuantity "188.7"^^xsd:float ;
+    edifact-o:hasAllowanceAmount "654.47"^^xsd:float ;
+    edifact-o:hasAllowanceReason "Hjvlzw Nrcllog" ;
+    edifact-o:hasInvoiceprice "33.24"^^xsd:float ;
+    edifact-o:hasLineItemAmount "57.66"^^xsd:float ;
+    edifact-o:hasPriceUnit "Ckeiys" ;
+    edifact-o:hasProductIdentification "PID_68248335A04B8E82",
+        "PID_BEEE55F373BC7983" ;
+    edifact-o:hasQuantityUnit "Hsykzn" ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:internationalArticleNumber "76100059386253" ;
+    edifact-o:isItemOf <http://example.com/2> ;
+    edifact-o:itemNumberSupplier "59979953" ;
+    edifact-o:unitPriceBasis "407.5"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantity "356.9"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantityUnitOfMeasure "135 Xphxql" ;
+    p2p-o-inv:hasInvoiceLine 18 ;
+    p2p-o-item:itemName "Pzdvkcb® Itseilwq 6.8i351/12 qammgt" .
+
+<http://example.com/-2> a p2p-o-item:item ;
+    edifact-o:deliveredQuantityWithUnit "8685 Zjeorb" ;
+    edifact-o:despatchQuantity "3205.3"^^xsd:float ;
+    edifact-o:hasAllowanceAmount "42.47"^^xsd:float ;
+    edifact-o:hasAllowanceReason "Hjvlzw Nrcllog" ;
+    edifact-o:hasInvoiceprice "6.55"^^xsd:float ;
+    edifact-o:hasLineItemAmount "32.92"^^xsd:float ;
+    edifact-o:hasPriceUnit "Ckeiys" ;
+    edifact-o:hasProductIdentification "PID_68248335A04B8E82",
+        "PID_BEEE55F373BC7983" ;
+    edifact-o:hasQuantityUnit "Hsykzn" ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:internationalArticleNumber "27828677480601" ;
+    edifact-o:isItemOf <http://example.com/2> ;
+    edifact-o:itemNumberSupplier "35784354" ;
+    edifact-o:unitPriceBasis "407.5"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantity "1633.0"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantityUnitOfMeasure "0468 Jzhgns" ;
+    p2p-o-inv:hasInvoiceLine 4 ;
+    p2p-o-item:itemName "Xxrxwyi® Eaqwmeqt 6.2x 35/93 llwueh" .
+
+<http://example.com/-3> a p2p-o-item:item ;
+    edifact-o:deliveredQuantityWithUnit "013 Lylvru" ;
+    edifact-o:despatchQuantity "188.7"^^xsd:float ;
+    edifact-o:hasAllowanceAmount "281.8"^^xsd:float ;
+    edifact-o:hasAllowanceReason "Hjvlzw Nrcllog" ;
+    edifact-o:hasInvoiceprice "27.91"^^xsd:float ;
+    edifact-o:hasLineItemAmount "41.84"^^xsd:float ;
+    edifact-o:hasPriceUnit "Ckeiys" ;
+    edifact-o:hasProductIdentification "PID_68248335A04B8E82",
+        "PID_BEEE55F373BC7983" ;
+    edifact-o:hasQuantityUnit "Hsykzn" ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:internationalArticleNumber "77732922029818" ;
+    edifact-o:isItemOf <http://example.com/2> ;
+    edifact-o:itemNumberSupplier "88789721" ;
+    edifact-o:unitPriceBasis "407.5"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantity "356.9"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantityUnitOfMeasure "135 Xphxql" ;
+    p2p-o-inv:hasInvoiceLine 2 ;
+    p2p-o-item:itemName "Cvbxszw® Lmhqfglm 2.9c742/72 siszcr" .
+
+<http://example.com/-4> a p2p-o-item:item ;
+    edifact-o:deliveredQuantityWithUnit "013 Lylvru" ;
+    edifact-o:despatchQuantity "188.7"^^xsd:float ;
+    edifact-o:hasAllowanceAmount "742.83"^^xsd:float ;
+    edifact-o:hasAllowanceReason "Hjvlzw Nrcllog" ;
+    edifact-o:hasInvoiceprice "53.76"^^xsd:float ;
+    edifact-o:hasLineItemAmount "649.88"^^xsd:float ;
+    edifact-o:hasPriceUnit "Ckeiys" ;
+    edifact-o:hasProductIdentification "PID_68248335A04B8E82",
+        "PID_BEEE55F373BC7983" ;
+    edifact-o:hasQuantityUnit "Hsykzn" ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:internationalArticleNumber "39380539855553" ;
+    edifact-o:isItemOf <http://example.com/2> ;
+    edifact-o:itemNumberSupplier "63993615" ;
+    edifact-o:unitPriceBasis "407.5"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantity "356.9"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantityUnitOfMeasure "135 Xphxql" ;
+    p2p-o-inv:hasInvoiceLine 7 ;
+    p2p-o-item:itemName "Svfzicn® Hahpcprh 7.2b021/77 sxipcv" .
+
+<http://example.com/-5> a p2p-o-item:item ;
+    edifact-o:deliveredQuantityWithUnit "013 Lylvru" ;
+    edifact-o:despatchQuantity "188.7"^^xsd:float ;
+    edifact-o:hasAllowanceAmount "19.04"^^xsd:float ;
+    edifact-o:hasAllowanceReason "Hjvlzw Nrcllog" ;
+    edifact-o:hasInvoiceprice "4.57"^^xsd:float ;
+    edifact-o:hasLineItemAmount "38.91"^^xsd:float ;
+    edifact-o:hasPriceUnit "Ckeiys" ;
+    edifact-o:hasProductIdentification "PID_68248335A04B8E82",
+        "PID_BEEE55F373BC7983" ;
+    edifact-o:hasQuantityUnit "Hsykzn" ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:internationalArticleNumber "85360983139178" ;
+    edifact-o:isItemOf <http://example.com/2> ;
+    edifact-o:itemNumberSupplier "39515112" ;
+    edifact-o:unitPriceBasis "407.5"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantity "356.9"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantityUnitOfMeasure "135 Xphxql" ;
+    p2p-o-inv:hasInvoiceLine 4 ;
+    p2p-o-item:itemName "Hqadgke® Aruwfvab 3.7x 60 hpwwfcvqb" .
+
+<http://example.com/-6> a p2p-o-item:item ;
+    edifact-o:deliveredQuantityWithUnit "8119 Qhnecu" ;
+    edifact-o:despatchQuantity "6010.2"^^xsd:float ;
+    edifact-o:hasAllowanceAmount "52.3"^^xsd:float ;
+    edifact-o:hasAllowanceReason "Hjvlzw Nrcllog" ;
+    edifact-o:hasInvoiceprice "7.1"^^xsd:float ;
+    edifact-o:hasLineItemAmount "5.4"^^xsd:float ;
+    edifact-o:hasPriceUnit "Ckeiys" ;
+    edifact-o:hasProductIdentification "PID_68248335A04B8E82",
+        "PID_BEEE55F373BC7983" ;
+    edifact-o:hasQuantityUnit "Hsykzn" ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:internationalArticleNumber "01118030350457" ;
+    edifact-o:isItemOf <http://example.com/2> ;
+    edifact-o:itemNumberSupplier "37142700" ;
+    edifact-o:unitPriceBasis "407.5"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantity "7928.9"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantityUnitOfMeasure "7197 Hqdzpi" ;
+    p2p-o-inv:hasInvoiceLine 9 ;
+    p2p-o-item:itemName "Lzgallt® Strwsoiz Jzgfce Dcdjsxb 1." .
+
+<http://example.com/-7> a p2p-o-item:item ;
+    edifact-o:deliveredQuantityWithUnit "891 Wxpcdm" ;
+    edifact-o:despatchQuantity "517.2"^^xsd:float ;
+    edifact-o:hasAllowanceAmount "56.65"^^xsd:float ;
+    edifact-o:hasAllowanceReason "Hjvlzw Nrcllog" ;
+    edifact-o:hasInvoiceprice "41.89"^^xsd:float ;
+    edifact-o:hasLineItemAmount "90.11"^^xsd:float ;
+    edifact-o:hasPriceUnit "Ckeiys" ;
+    edifact-o:hasProductIdentification "PID_68248335A04B8E82",
+        "PID_BEEE55F373BC7983" ;
+    edifact-o:hasQuantityUnit "Hsykzn" ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:internationalArticleNumber "57841080823144" ;
+    edifact-o:isItemOf <http://example.com/2> ;
+    edifact-o:itemNumberSupplier "14574316" ;
+    edifact-o:unitPriceBasis "407.5"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantity "520.1"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantityUnitOfMeasure "580 Ggovaa" ;
+    p2p-o-inv:hasInvoiceLine 9 ;
+    p2p-o-item:itemName "Tiinaoi® Vmoawbtr Buhtxg Htfhvkf 4." .
+
+<http://example.com/-8> a p2p-o-item:item ;
+    edifact-o:deliveredQuantityWithUnit "3 JDnhuwb_skptzkhjb" ;
+    edifact-o:despatchQuantity "8.2"^^xsd:float ;
+    edifact-o:hasAllowanceAmount "42.72"^^xsd:float ;
+    edifact-o:hasAllowanceReason "Hjvlzw Nrcllog" ;
+    edifact-o:hasInvoiceprice "48.12"^^xsd:float ;
+    edifact-o:hasLineItemAmount "17.14"^^xsd:float ;
+    edifact-o:hasPriceUnit "JDfvtxw_jwczldoif" ;
+    edifact-o:hasProductIdentification "PID_68248335A04B8E82",
+        "PID_BEEE55F373BC7983" ;
+    edifact-o:hasQuantityUnit "FMbshtx_emblqadii" ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:internationalArticleNumber "93323842762760" ;
+    edifact-o:isItemOf <http://example.com/2> ;
+    edifact-o:itemNumberSupplier "08549153" ;
+    edifact-o:unitPriceBasis "6.8"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantity "6.3"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantityUnitOfMeasure "4 RZesscm_oykeejali" ;
+    p2p-o-inv:hasInvoiceLine 5 ;
+    p2p-o-item:itemName "VJZ JPPDVK® cqucglsvhvq 9-iyvihjzvq" .
+
+<http://example.com/-9> a p2p-o-item:item ;
+    edifact-o:deliveredQuantityWithUnit "691 Gpofvw" ;
+    edifact-o:despatchQuantity "902.9"^^xsd:float ;
+    edifact-o:hasAllowanceAmount "57.86"^^xsd:float ;
+    edifact-o:hasAllowanceReason "Hjvlzw Nrcllog" ;
+    edifact-o:hasInvoiceprice "9.99"^^xsd:float ;
+    edifact-o:hasLineItemAmount "65.82"^^xsd:float ;
+    edifact-o:hasPriceUnit "Ckeiys" ;
+    edifact-o:hasProductIdentification "PID_68248335A04B8E82",
+        "PID_BEEE55F373BC7983" ;
+    edifact-o:hasQuantityUnit "Hsykzn" ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:internationalArticleNumber "38706656500845" ;
+    edifact-o:isItemOf <http://example.com/2> ;
+    edifact-o:itemNumberSupplier "42605900" ;
+    edifact-o:unitPriceBasis "407.5"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantity "51.1"^^xsd:float ;
+    p2p-o-doc-line:invoicedQuantityUnitOfMeasure "151 Zkekil" ;
+    p2p-o-inv:hasInvoiceLine 4 ;
+    p2p-o-item:itemName "Vkkcmrg® Vgbgjaej 3.3e 28/50 ivzsra" .
+
+<http://example.com/0> a edifact-o:EANCOM-Structure ;
+    edifact-o:controlSegmentBetweenItemAndTotalPart "S" ;
+    edifact-o:creationDate 766745 ;
+    edifact-o:creationTime 1832 ;
+    edifact-o:dataExchangeCounter 1 ;
+    edifact-o:dataExchangeReference "75" ;
+    edifact-o:managingOrganisations "ZM" ;
+    edifact-o:messageReferenceNumber "1",
+        "9" ;
+    edifact-o:messageTypeIdentifier "PVEKDD" ;
+    edifact-o:recipientIndicator "0622154445765" ;
+    edifact-o:releaseNumberMessageType "90T" ;
+    edifact-o:senderIndicator "6961841140568" ;
+    edifact-o:synatxIdentifier "NXIZ" ;
+    edifact-o:synatxVersion 1 ;
+    edifact-o:totalNumberOfSegments "724",
+        "78" ;
+    edifact-o:versionNumberMessageType "I" .
+
+<http://example.com/1> a edifact-o:InvoiceDetails ;
+    schema1:currency "Ecpz" ;
+    edifact-o:dateOrderNumberSupplier "68142215" ;
+    edifact-o:documentDate "07117792" ;
+    edifact-o:hasDiscountPercentagePaymentConditions "6.6"^^xsd:float ;
+    edifact-o:hasDocumentFunction "Zgsoityu" ;
+    edifact-o:hasDocumentNumber "73628472" ;
+    edifact-o:hasDocumentType "Psrnjhpfwhynrbh" ;
+    edifact-o:hasInvoiceAmount "29.6"^^xsd:float ;
+    edifact-o:hasTaxAmount "9.6"^^xsd:float ;
+    edifact-o:hasTaxableAmount "79.8"^^xsd:float ;
+    edifact-o:hasTotalAmountUnderPaymentReduction "2.32"^^xsd:float ;
+    edifact-o:hasTotalDutyTaxFeeAmount "9.9"^^xsd:float ;
+    edifact-o:hasTotalLineItemAmount "64.8"^^xsd:float ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:invoiceCurrency "Hbyf" ;
+    edifact-o:orderNumberBuyer "74-62527-80" ;
+    edifact-o:orderNumberSupplier "WK687567" ;
+    edifact-o:paymentCondition "Qnkww" ;
+    edifact-o:paymentReferenceDate "30 Zhi(y) ocwm Yplylddjrovwnh " ;
+    p2p-o-inv:actualDeliveryDate "59636241" .
+
+<http://example.com/999991> a <http://example.com/DeliveryPartyRole> ;
+    frapo:hasCountryCode "YW" ;
+    vcard:hasStreetAddress "Gbyxxjypoz 51" ;
+    vcard:postalCode "7976" ;
+    agentRole:isProvidedBy <http://example.com/-999998> ;
+    edifact-o:hasCity "Rfdjkxtxa" ;
+    edifact-o:hasCountry "Wzuijpl" ;
+    p2p-o-org:VATIdentifier "WL3989663841" ;
+    p2p-o-org:formalName "Wgiyxlt Kbvkjicwy QM" ;
+    p2p-o-org:globalLocationNumber 7589697174786 .
+
+<http://example.com/999992> a <http://example.com/InvoiceeRole> ;
+    frapo:hasCountryCode "QD" ;
+    vcard:hasStreetAddress "HIE Spxtb 2" ;
+    vcard:postalCode "46257" ;
+    agentRole:isProvidedBy <http://example.com/-999998> ;
+    edifact-o:hasCity "Ixktiafcs" ;
+    edifact-o:hasCountry "Ezrstaqdgjy" ;
+    p2p-o-org:VATIdentifier "SX7260566969" ;
+    p2p-o-org:formalName "Grqruoqlrügt Vkpfjfpae Rvirtuälwnnu" ;
+    p2p-o-org:globalLocationNumber 3493769127341 .
+
+<http://example.com/999993> a <http://example.com/BuyerRole> ;
+    frapo:hasCountryCode "BR" ;
+    vcard:hasStreetAddress "Tdloiydwku 07" ;
+    vcard:postalCode "1016" ;
+    agentRole:isProvidedBy <http://example.com/-999998> ;
+    edifact-o:hasCity "Iunrsaht" ;
+    edifact-o:hasCountry "Bpfeafj" ;
+    p2p-o-org:VATIdentifier "KS0822169413" ;
+    p2p-o-org:formalName "Yoklrcx Brxnprnzk MN" ;
+    p2p-o-org:globalLocationNumber 7589697174786 .
+
+<http://example.com/999994> a <http://example.com/SupplierRole> ;
+    frapo:hasCountryCode "PP" ;
+    vcard:hasStreetAddress "Zrczyjvjnmql 3" ;
+    vcard:postalCode "2456 ER" ;
+    agentRole:isProvidedBy <http://example.com/-999998> ;
+    edifact-o:hasCity "Pyrsjdys" ;
+    edifact-o:hasCountry "Phocbkzjnsk" ;
+    p2p-o-org:VATIdentifier "ER207947651U03" ;
+    p2p-o-org:formalName "CEQ Vekaelv D.X." ;
+    p2p-o-org:globalLocationNumber 8697190275829 .
+
+<http://example.com/999995> a <http://example.com/DeliveryPartyRole> ;
+    frapo:hasCountryCode "YY" ;
+    vcard:hasStreetAddress "Cvelgtnpxb 82" ;
+    vcard:postalCode "9999" ;
+    agentRole:isProvidedBy <http://example.com/-999999> ;
+    edifact-o:hasCity "Boiirejjn" ;
+    edifact-o:hasCountry "Igyroxq" ;
+    p2p-o-org:VATIdentifier "CD5376724542" ;
+    p2p-o-org:formalName "Uabtczf Bwvhfjhtg SX" ;
+    p2p-o-org:globalLocationNumber 7589697174786 .
+
+<http://example.com/999996> a <http://example.com/InvoiceeRole> ;
+    frapo:hasCountryCode "GB" ;
+    vcard:hasStreetAddress "RLT Byyza 4" ;
+    vcard:postalCode "63995" ;
+    agentRole:isProvidedBy <http://example.com/-999999> ;
+    edifact-o:hasCity "Hguolfcqw" ;
+    edifact-o:hasCountry "Xgwucemocpb" ;
+    p2p-o-org:VATIdentifier "WF0017077840" ;
+    p2p-o-org:formalName "Gqzbpmmojütl Somfievub Aagabdänxnmd" ;
+    p2p-o-org:globalLocationNumber 3493769127341 .
+
+<http://example.com/999997> a <http://example.com/BuyerRole> ;
+    frapo:hasCountryCode "SA" ;
+    vcard:hasStreetAddress "Qjfobyjhtx 61" ;
+    vcard:postalCode "1588" ;
+    agentRole:isProvidedBy <http://example.com/-999999> ;
+    edifact-o:hasCity "Wtgorecu" ;
+    edifact-o:hasCountry "Pcnchgg" ;
+    p2p-o-org:VATIdentifier "OE3116496053" ;
+    p2p-o-org:formalName "Cvrrbph Yaskgtpwi XV" ;
+    p2p-o-org:globalLocationNumber 7589697174786 .
+
+<http://example.com/999998> a <http://example.com/SupplierRole> ;
+    frapo:hasCountryCode "CV" ;
+    vcard:hasStreetAddress "Njmbivhhxuqd 0" ;
+    vcard:postalCode "5415 TX" ;
+    agentRole:isProvidedBy <http://example.com/-999999> ;
+    edifact-o:hasCity "Ayrnrqij" ;
+    edifact-o:hasCountry "Xqbghbluqfi" ;
+    p2p-o-org:VATIdentifier "SB072284262D50" ;
+    p2p-o-org:formalName "RQV Tscbmld L.E." ;
+    p2p-o-org:globalLocationNumber 8697190275829 .
+
+<http://example.com/-999998> a p2p-o-doc:E-Invoice ;
+    edifact-o:belongsToProcess "StqxveZqtIaraw" ;
+    edifact-o:followsStandard <http://example.com/0> ;
+    edifact-o:hasDeliveryParty <http://example.com/999991> ;
+    edifact-o:hasInvoiceDetails <http://example.com/2> ;
+    edifact-o:hasInvoicee <http://example.com/999992> ;
+    edifact-o:hasItem <http://example.com/-10>,
+        <http://example.com/-11>,
+        <http://example.com/-2>,
+        <http://example.com/-3>,
+        <http://example.com/-4>,
+        <http://example.com/-5>,
+        <http://example.com/-6>,
+        <http://example.com/-7>,
+        <http://example.com/-8>,
+        <http://example.com/-9> ;
+    p2p-o-inv:hasBuyer <http://example.com/999993> ;
+    p2p-o-inv:hasSupplier <http://example.com/999994> .
+
+<http://example.com/-999999> a p2p-o-doc:E-Invoice ;
+    edifact-o:belongsToProcess "StqxveZqtIaraw" ;
+    edifact-o:followsStandard <http://example.com/0> ;
+    edifact-o:hasDeliveryParty <http://example.com/999995> ;
+    edifact-o:hasInvoiceDetails <http://example.com/1> ;
+    edifact-o:hasInvoicee <http://example.com/999996> ;
+    edifact-o:hasItem <http://example.com/-1> ;
+    p2p-o-inv:hasBuyer <http://example.com/999997> ;
+    p2p-o-inv:hasSupplier <http://example.com/999998> .
+
+<http://example.com/2> a edifact-o:InvoiceDetails ;
+    schema1:currency "Ecpz" ;
+    edifact-o:dateOrderNumberSupplier "68142215" ;
+    edifact-o:documentDate "07117792" ;
+    edifact-o:hasDiscountPercentagePaymentConditions "6.6"^^xsd:float ;
+    edifact-o:hasDocumentFunction "Zgsoityu" ;
+    edifact-o:hasDocumentNumber "35253841" ;
+    edifact-o:hasDocumentType "Psrnjhpfwhynrbh" ;
+    edifact-o:hasInvoiceAmount "63.76"^^xsd:float ;
+    edifact-o:hasTaxAmount "9.6"^^xsd:float ;
+    edifact-o:hasTaxableAmount "53.05"^^xsd:float ;
+    edifact-o:hasTotalAmountUnderPaymentReduction "51.24"^^xsd:float ;
+    edifact-o:hasTotalDutyTaxFeeAmount "9.9"^^xsd:float ;
+    edifact-o:hasTotalLineItemAmount "731.3"^^xsd:float ;
+    edifact-o:hasVATrate "7.8"^^xsd:float ;
+    edifact-o:invoiceCurrency "Hbyf" ;
+    edifact-o:orderNumberBuyer "02-58424-29" ;
+    edifact-o:orderNumberSupplier "VP556886" ;
+    edifact-o:paymentCondition "Qnkww" ;
+    edifact-o:paymentReferenceDate "30 Zhi(y) ocwm Yplylddjrovwnh " ;
+    p2p-o-inv:actualDeliveryDate "59636241" .
+

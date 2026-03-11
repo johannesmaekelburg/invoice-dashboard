@@ -1,0 +1,367 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b1> a sh:ValidationReport ;
+    sh:conforms false ;
+    sh:result <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b11>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b13>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b15>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b17>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b19>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b2>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b21>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b23>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b25>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b26>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b27>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b29>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b31>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b32>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b33>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b35>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b36>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b37>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b38>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b4>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b40>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b41>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b43>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b44>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b46>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b47>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b5>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b7>,
+        <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b9> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b11> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4030732000005> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4030732000005>->frapo:hasCountryCode" ;
+    sh:resultPath <http://purl.org/cerif/frapo/hasCountryCode> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b12> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b13> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-999999> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-999999>->p2p-o-inv:actualDeliveryDate" ;
+    sh:resultPath <https://purl.org/p2p-o/invoice#actualDeliveryDate> ;
+    sh:resultSeverity sh:Info ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b14> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b14> sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <https://purl.org/p2p-o/invoice#actualDeliveryDate> ;
+    sh:severity sh:Info .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b15> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-999999> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-999999>->eancom:belongsToProcess" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/belongsToProcess> ;
+    sh:resultSeverity sh:Info ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b16> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b17> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-999999> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-999999>->eancom:hasDeliveryParty" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/hasDeliveryParty> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b18> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b18> sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <http://webprotege.stanford.edu/EancomD96A/hasDeliveryParty> ;
+    sh:severity sh:Violation .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b19> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-1> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-1>->eancom:hasProductIdentification" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/hasProductIdentification> ;
+    sh:resultSeverity sh:Warning ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b20> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b2> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4030732000005> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4030732000005>->eancom:hasCity" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/hasCity> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b3> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b20> sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:path <http://webprotege.stanford.edu/EancomD96A/hasProductIdentification> ;
+    sh:severity sh:Warning .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b21> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-999999> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-999999>->eancom:hasTotalLineItemAmount" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/hasTotalLineItemAmount> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b22> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b22> sh:datatype xsd:float ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <http://webprotege.stanford.edu/EancomD96A/hasTotalLineItemAmount> ;
+    sh:severity sh:Violation .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b23> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4399901542952> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4399901542952>->vcard:postalCode" ;
+    sh:resultPath <http://www.w3.org/2006/vcard/ns#postalCode> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b24> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b25> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-999999> ;
+    sh:resultMessage "Node <http://example.com/-999999>->eancom:belongsToProcess does not contain a value in the set: ['Literal(\"BricksAndTools\")']" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/belongsToProcess> ;
+    sh:resultSeverity sh:Info ;
+    sh:sourceConstraintComponent sh:HasValueConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b16> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b26> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4003899000003> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4003899000003>->vcard:hasStreetAddress" ;
+    sh:resultPath <http://www.w3.org/2006/vcard/ns#hasStreetAddress> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b10> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b27> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4003899000003> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4003899000003>->p2p-o-org:formalName" ;
+    sh:resultPath <https://purl.org/p2p-o/organization#formalName> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b28> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b29> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-1> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-1>->eancom:deliveredQuantityWithUnit" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/deliveredQuantityWithUnit> ;
+    sh:resultSeverity sh:Warning ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b30> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b30> sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <http://webprotege.stanford.edu/EancomD96A/deliveredQuantityWithUnit> ;
+    sh:severity sh:Warning .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b31> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4399901542952> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4399901542952>->eancom:hasCity" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/hasCity> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b3> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b32> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4030732000005> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4030732000005>->p2p-o-org:formalName" ;
+    sh:resultPath <https://purl.org/p2p-o/organization#formalName> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b28> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b33> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-999999> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-999999>->eancom:hasTaxableAmount" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/hasTaxableAmount> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b34> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b34> sh:datatype xsd:float ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <http://webprotege.stanford.edu/EancomD96A/hasTaxableAmount> ;
+    sh:severity sh:Violation .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b35> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4003899000003> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4003899000003>->eancom:hasCity" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/hasCity> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b3> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b36> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4399901542952> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4399901542952>->vcard:hasStreetAddress" ;
+    sh:resultPath <http://www.w3.org/2006/vcard/ns#hasStreetAddress> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b10> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b37> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4399901542952> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4399901542952>->frapo:hasCountryCode" ;
+    sh:resultPath <http://purl.org/cerif/frapo/hasCountryCode> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b12> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b38> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-999999> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-999999>->eancom:documentDate" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/documentDate> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b39> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b39> sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <http://webprotege.stanford.edu/EancomD96A/documentDate> ;
+    sh:severity sh:Violation .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b4> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-999999> ;
+    sh:resultMessage "Node <http://example.com/-999999> does not conform to one or more shapes in [ sh:datatype xsd:float ; sh:maxCount Literal(\"1\", datatype=xsd:integer) ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path eancom:hasTotalAmount ; sh:severity sh:Violation ] , [ sh:datatype xsd:float ; sh:maxCount Literal(\"1\", datatype=xsd:integer) ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path eancom:hasInvoiceAmount ; sh:severity sh:Violation ] , [ sh:datatype xsd:float ; sh:maxCount Literal(\"1\", datatype=xsd:integer) ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path eancom:hasTotalAmountMessage ; sh:severity sh:Violation ]" ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:OrConstraintComponent ;
+    sh:sourceShape <http://mapping.example.com/EntgeltAuschluesselung> ;
+    sh:value <http://example.com/-999999> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b40> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4030732000005> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4030732000005>->vcard:postalCode" ;
+    sh:resultPath <http://www.w3.org/2006/vcard/ns#postalCode> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b24> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b41> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-999999> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-999999>->eancom:documentNumber" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/documentNumber> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b42> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b42> sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:maxLength 13 ;
+    sh:minCount 1 ;
+    sh:path <http://webprotege.stanford.edu/EancomD96A/documentNumber> ;
+    sh:severity sh:Violation .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b43> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4003899000003> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4003899000003>->vcard:postalCode" ;
+    sh:resultPath <http://www.w3.org/2006/vcard/ns#postalCode> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b24> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b44> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-999999> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-999999>->p2p-o-inv:actualDeliveryDate" ;
+    sh:resultPath <https://purl.org/p2p-o/invoice#actualDeliveryDate> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b45> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b45> sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <https://purl.org/p2p-o/invoice#actualDeliveryDate> ;
+    sh:severity sh:Violation .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b46> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4003899000003> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4003899000003>->frapo:hasCountryCode" ;
+    sh:resultPath <http://purl.org/cerif/frapo/hasCountryCode> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b12> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b47> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4399901542952> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4399901542952>->p2p-o-org:formalName" ;
+    sh:resultPath <https://purl.org/p2p-o/organization#formalName> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b28> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b5> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-999999> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-999999>->eancom:hasInvoicee" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/hasInvoicee> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b6> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b6> sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <http://webprotege.stanford.edu/EancomD96A/hasInvoicee> ;
+    sh:severity sh:Violation .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b7> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/-1> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/-1>->eancom:deliveredQuantity" ;
+    sh:resultPath <http://webprotege.stanford.edu/EancomD96A/deliveredQuantity> ;
+    sh:resultSeverity sh:Warning ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b8> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b8> sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <http://webprotege.stanford.edu/EancomD96A/deliveredQuantity> ;
+    sh:severity sh:Warning .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b9> a sh:ValidationResult ;
+    sh:focusNode <http://example.com/4030732000005> ;
+    sh:resultMessage "Less than 1 values on <http://example.com/4030732000005>->vcard:hasStreetAddress" ;
+    sh:resultPath <http://www.w3.org/2006/vcard/ns#hasStreetAddress> ;
+    sh:resultSeverity sh:Violation ;
+    sh:sourceConstraintComponent sh:MinCountConstraintComponent ;
+    sh:sourceShape <https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b10> .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b16> sh:hasValue "BricksAndTools" ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <http://webprotege.stanford.edu/EancomD96A/belongsToProcess> ;
+    sh:severity sh:Info .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b10> sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <http://www.w3.org/2006/vcard/ns#hasStreetAddress> ;
+    sh:severity sh:Violation .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b12> sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:maxLength 2 ;
+    sh:minCount 1 ;
+    sh:minLength 2 ;
+    sh:path <http://purl.org/cerif/frapo/hasCountryCode> ;
+    sh:severity sh:Violation .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b24> sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <http://www.w3.org/2006/vcard/ns#postalCode> ;
+    sh:severity sh:Violation .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b28> sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <https://purl.org/p2p-o/organization#formalName> ;
+    sh:severity sh:Violation .
+
+<https://rdflib.github.io/.well-known/genid/rdflib/n06d203e4ee604b378f65c2c78fb34a16b3> sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:path <http://webprotege.stanford.edu/EancomD96A/hasCity> ;
+    sh:severity sh:Violation .
+

@@ -34,6 +34,7 @@ import FocusNodeView from "@/components/Views/FocusNodeView.vue";
 import PropertyPathOverview from "@/components/Overviews/PropertyPathOverview.vue";
 import PropertyPathView from "@/components/Views/PropertyPathView.vue";
 import AboutUs from "@/components/Overviews/AboutUs.vue";
+import InvoiceView from "@/components/Overviews/InvoiceView.vue";
 
 const routes = [
   //{ path: "/", name: "LandingPage", component: LandingPage }, // Landing page route
@@ -47,6 +48,7 @@ const routes = [
   { path: "/property-paths", name: "PropertyPathOverview", component: PropertyPathOverview },
   { path: "/property-paths/:pathId", name: "PropertyPathView", component: PropertyPathView },
   { path: "/about-us", name: "AboutUs", component: AboutUs },
+  { path: "/invoice", name: "InvoiceView", component: InvoiceView },
 ];
 
 // Create the router instance

@@ -68,7 +68,7 @@
  */
 import { ref, defineProps, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faHome, faShapes, faProjectDiagram, faRoute, faPuzzlePiece, faPowerOff, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faShapes, faProjectDiagram, faRoute, faPuzzlePiece, faPowerOff, faInfo, faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from './../Reusable/ConfirmationModal.vue';
 
 const emit = defineEmits(['updateView', 'sidebarWidthChanged']);
@@ -80,7 +80,8 @@ const sidebarWidth = ref(60);
 const menuItems = [
   { name: 'Home', label: 'Home', icon: faHome, route: '/' },
   { name: 'Shape View', label: 'Shapes', icon: faShapes, route: '/shapes' },
-  { name: 'About Us', label: 'About Us', icon: faInfo, route: '/about-us' }
+  { name: 'About Us', label: 'About Us', icon: faInfo, route: '/about-us' },
+  { name: 'Invoice View', label: 'Invoice', icon: faFileInvoiceDollar, route: '/invoice' }
 ];
 
 // const menuItems = [

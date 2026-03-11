@@ -14,6 +14,7 @@ TRIPLE_STORE_TYPE = "virtuoso"  # Options: "virtuoso", "fuseki", "stardog", etc.
 # Graph URIs
 SHAPES_GRAPH_URI = "http://ex.org/ShapesGraph"
 VALIDATION_REPORT_URI = "http://ex.org/ValidationReport"
+DATA_GRAPH_URI = "http://ex.org/DataGraph"
 
 # SHACL Constraints and Features (SHACL Core Constraint Components)
 # Based on W3C SHACL Recommendation: https://www.w3.org/TR/shacl/#core-components
