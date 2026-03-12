@@ -68,7 +68,7 @@
  */
 import { ref, defineProps, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faHome, faShapes, faProjectDiagram, faRoute, faPuzzlePiece, faPowerOff, faInfo, faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faInfo, faBuilding, faChartLine, faTriangleExclamation, faUsers } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from './../Reusable/ConfirmationModal.vue';
 
 const emit = defineEmits(['updateView', 'sidebarWidthChanged']);
@@ -78,20 +78,13 @@ const isExpanded = ref(false);
 const sidebarWidth = ref(60);
 
 const menuItems = [
-  { name: 'Home', label: 'Home', icon: faHome, route: '/' },
-  { name: 'Shape View', label: 'Shapes', icon: faShapes, route: '/shapes' },
-  { name: 'About Us', label: 'About Us', icon: faInfo, route: '/about-us' },
-  { name: 'Invoice View', label: 'Invoice', icon: faFileInvoiceDollar, route: '/invoice' }
+  { name: 'Home',                 label: 'Dashboard',           icon: faHome,                route: '/' },
+  { name: 'Supplier Performance', label: 'Supplier Performance', icon: faBuilding,            route: '/suppliers' },
+  { name: 'Financial Risk',       label: 'Financial Risk',      icon: faChartLine,            route: '/financial-risk' },
+  { name: 'CounterpartiesView',   label: 'Counterparties',      icon: faUsers,                route: '/counterparties' },
+  { name: 'Issue Patterns',       label: 'Issue Patterns',      icon: faTriangleExclamation,  route: '/issue-patterns' },
+  { name: 'About Us',             label: 'About Us',            icon: faInfo,                 route: '/about-us' },
 ];
-
-// const menuItems = [
-//   { name: 'Home', label: 'Home', icon: faHome, route: '/' },
-//   { name: 'Shape View', label: 'Shapes', icon: faShapes, route: '/shapes' },
-//   { name: 'Focus Node View', label: 'Focus Nodes', icon: faProjectDiagram, route: '/focus-nodes' },
-//   { name: 'Property Path View', label: 'Property Paths', icon: faRoute, route: '/property-paths' },
-//   { name: 'Constraint View', label: 'Constraints', icon: faPuzzlePiece, route: '/constraints' },
-//   { name: 'About Us', label: 'About Us', icon: faInfo, route: '/about-us' }
-// ];
 
 
 const buttonClicked = (viewName, navigate) => {
@@ -143,27 +136,36 @@ watch(isExpanded, (newValue) => {
 .menu-item {
   display: flex;
   align-items: center;
-  width: 100%;
-  padding: 10px 20px;
+  margin: 2px 8px;
+  padding: 10px 12px;
   font-size: 16px;
   color: #828282;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  border-radius: 8px;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .menu-item.active {
-  color: #020202;
+  color: rgb(var(--v-theme-primary));
+  background-color: rgba(var(--v-theme-primary), 0.12);
+  font-weight: 600;
 }
 
 .menu-item:hover {
-  background-color: #efefef;
-  color: #020202;
+  background-color: rgba(var(--v-theme-primary), 0.06);
+  color: #333;
+}
+
+.active-icon {
+  color: rgb(var(--v-theme-primary));
 }
 
 .menu-icon {
   margin-right: 10px;
   font-size: 20px;
-  transition: color 0.3s;
+  min-width: 20px;
+  flex-shrink: 0;
+  transition: color 0.2s;
 }
 
 .menu-text {

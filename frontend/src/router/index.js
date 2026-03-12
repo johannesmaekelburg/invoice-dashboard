@@ -21,34 +21,22 @@
  */
 import { createRouter, createWebHistory } from "vue-router";
 
-// Import components
-import LandingPage from "@/components/LandingPage.vue"; // Your landing page component
-import MainContent from "@/components/Layout/MainContent.vue"; // Home component
-
-import ShapeOverview from "@/components/Overviews/ShapeOverview.vue";
-import ShapeView from "@/components/Views/ShapeView.vue";
-import ConstraintOverview from "@/components/Overviews/ConstraintOverview.vue";
-import ConstraintView from "@/components/Views/ConstraintView.vue";
-import FocusNodeOverview from "@/components/Overviews/FocusNodeOverview.vue";
-import FocusNodeView from "@/components/Views/FocusNodeView.vue";
-import PropertyPathOverview from "@/components/Overviews/PropertyPathOverview.vue";
-import PropertyPathView from "@/components/Views/PropertyPathView.vue";
 import AboutUs from "@/components/Overviews/AboutUs.vue";
+import HomeView from "@/components/Overviews/HomeView.vue";
 import InvoiceView from "@/components/Overviews/InvoiceView.vue";
+import SupplierView from "@/components/Overviews/SupplierView.vue";
+import FinancialRiskView from "@/components/Overviews/FinancialRiskView.vue";
+import CounterpartiesView from "@/components/Overviews/CounterpartiesView.vue";
+import IssuePatternsView from "@/components/Overviews/IssuePatternsView.vue";
 
 const routes = [
-  //{ path: "/", name: "LandingPage", component: LandingPage }, // Landing page route
-  { path: "/", name: "Home", component: MainContent }, // Main content after landing page
-  { path: "/shapes", name: "ShapeOverview", component: ShapeOverview },
-  { path: "/shapes/:shapeId", name: "ShapeView", component: ShapeView },
-  { path: "/constraints", name: "ConstraintOverview", component: ConstraintOverview },
-  { path: "/constraints/:constraintId/:constraintName/:constraintViolations", name: "ConstraintView", component: ConstraintView },
-  { path: "/focus-nodes", name: "FocusNodeOverview", component: FocusNodeOverview },
-  { path: "/focus-nodes/:focusNodeId", name: "FocusNodeView", component: FocusNodeView },
-  { path: "/property-paths", name: "PropertyPathOverview", component: PropertyPathOverview },
-  { path: "/property-paths/:pathId", name: "PropertyPathView", component: PropertyPathView },
-  { path: "/about-us", name: "AboutUs", component: AboutUs },
+  { path: "/", name: "Home", component: HomeView },
   { path: "/invoice", name: "InvoiceView", component: InvoiceView },
+  { path: "/suppliers", name: "SupplierView", component: SupplierView },
+  { path: "/financial-risk", name: "FinancialRiskView", component: FinancialRiskView },
+  { path: "/counterparties", name: "CounterpartiesView", component: CounterpartiesView },
+  { path: "/issue-patterns", name: "IssuePatternsView", component: IssuePatternsView },
+  { path: "/about-us", name: "AboutUs", component: AboutUs },
 ];
 
 // Create the router instance

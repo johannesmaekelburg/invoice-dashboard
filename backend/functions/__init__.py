@@ -14,13 +14,14 @@ Modules:
 """
 
 from .invoice_service import (
+    get_invoice_list,
     get_invoice_summary,
     get_invoice_parties,
     get_invoice_items,
-    get_violations_by_severity,
     get_violations_by_shape,
     get_violations_enriched,
     get_compliance_summary,
+    get_global_stats,
 )
 
 from .virtuoso_service import (

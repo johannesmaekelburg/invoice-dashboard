@@ -344,32 +344,46 @@ export async function getViolatedFocusNodesCountForNodeShape(nodeShape) {
 // Invoice API Endpoints
 // ============================================================================
 
-export async function getInvoiceSummary() {
-  return apiRequest('/invoice/summary');
+function uriParam(invoiceUri) {
+  return invoiceUri ? `?invoice_uri=${encodeURIComponent(invoiceUri)}` : '';
 }
 
-export async function getInvoiceParties() {
-  return apiRequest('/invoice/parties');
+export async function getInvoiceDetail(invoiceUri) {
+  return apiRequest(`/invoice/detail${uriParam(invoiceUri)}`);
 }
 
-export async function getInvoiceItems() {
-  return apiRequest('/invoice/items');
+export async function getInvoiceList() {
+  return apiRequest('/invoice/list');
 }
 
-export async function getInvoiceViolationsBySeverity() {
-  return apiRequest('/invoice/violations/by-severity');
+export async function getGlobalStats() {
+  return apiRequest('/invoice/global-stats');
 }
 
-export async function getInvoiceViolationsByShape() {
-  return apiRequest('/invoice/violations/by-shape');
+export async function getInvoiceSummary(invoiceUri) {
+  return apiRequest(`/invoice/summary${uriParam(invoiceUri)}`);
 }
 
-export async function getInvoiceViolationsEnriched() {
-  return apiRequest('/invoice/violations/enriched');
+export async function getInvoiceParties(invoiceUri) {
+  return apiRequest(`/invoice/parties${uriParam(invoiceUri)}`);
 }
 
-export async function getInvoiceCompliance() {
-  return apiRequest('/invoice/compliance');
+export async function getInvoiceItems(invoiceUri) {
+  return apiRequest(`/invoice/items${uriParam(invoiceUri)}`);
+}
+
+export async function getInvoiceViolationsByShape(invoiceUri) {
+  return apiRequest(`/invoice/violations/by-shape${uriParam(invoiceUri)}`);
+}
+
+export async function getInvoiceViolationsEnriched(invoiceUri, limit = 500) {
+  const base = `/invoice/violations/enriched?limit=${limit}`;
+  const extra = invoiceUri ? `&invoice_uri=${encodeURIComponent(invoiceUri)}` : '';
+  return apiRequest(base + extra);
+}
+
+export async function getInvoiceCompliance(invoiceUri) {
+  return apiRequest(`/invoice/compliance${uriParam(invoiceUri)}`);
 }
 
 /**
@@ -418,4 +432,52 @@ export async function getShapeDefinition(nodeShape) {
     method: 'POST',
     body: JSON.stringify({ node_shape_names: [nodeShape] })
   });
+}
+
+// ============================================================================
+// Financial Risk API Endpoints
+// ============================================================================
+
+export async function getFinancialRiskSummary() {
+  return apiRequest('/financial-risk/summary');
+}
+
+export async function getExposureBySupplier() {
+  return apiRequest('/financial-risk/exposure-by-supplier');
+}
+
+export async function getExposureByDocType() {
+  return apiRequest('/financial-risk/exposure-by-doc-type');
+}
+
+export async function getHighValueRiskInvoices() {
+  return apiRequest('/financial-risk/high-value-invoices');
+}
+
+export async function getAgingBuckets() {
+  return apiRequest('/financial-risk/aging-buckets');
+}
+
+// ============================================================================
+// Issue Patterns API Endpoints
+// ============================================================================
+
+export async function getIssueSummary() {
+  return apiRequest('/issue-patterns/summary');
+}
+
+export async function getTopIssueCategories() {
+  return apiRequest('/issue-patterns/top-categories');
+}
+
+export async function getIssuesBySection() {
+  return apiRequest('/issue-patterns/by-section');
+}
+
+export async function getIssuesBySupplier() {
+  return apiRequest('/issue-patterns/by-supplier');
+}
+
+export async function getIssueSeverityBreakdown() {
+  return apiRequest('/issue-patterns/severity-breakdown');
 }

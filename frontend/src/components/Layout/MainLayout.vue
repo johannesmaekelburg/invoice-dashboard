@@ -64,8 +64,14 @@ onMounted(() => {
 
 <template>
   <!-- Top App Bar -->
-  <v-app-bar app color="primary" dark>
-    <v-toolbar-title class="text-center" style="width: 100%;">SHACL Dashboard</v-toolbar-title>
+  <v-app-bar app flat style="background:#1e293b;border-bottom:1px solid #334155;">
+    <v-toolbar-title>
+      <div class="app-title">
+        <v-icon size="20" style="color:#60a5fa;margin-right:8px">mdi-file-document-check-outline</v-icon>
+        <span class="title-main">Invoice Dashboard</span>
+        <span class="title-sub">E-Invoice SHACL Compliance</span>
+      </div>
+    </v-toolbar-title>
   </v-app-bar>
 
   <!-- Main Content Area -->
@@ -86,6 +92,24 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.app-title {
+  display: flex;
+  align-items: center;
+}
+.title-main {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  color: #f1f5f9;
+}
+.title-sub {
+  font-size: 11px;
+  color: #64748b;
+  margin-left: 10px;
+  letter-spacing: .3px;
+  font-weight: 400;
+}
+
 .v-main {
   display: flex;
   flex-direction: row;

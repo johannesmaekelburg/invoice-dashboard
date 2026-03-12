@@ -34,7 +34,7 @@ def load_ttl_into_graph(filepath, graph_uri):
 
 load_ttl_into_graph('data/Process_Anonymized.ttl', 'http://ex.org/ShapesGraph')
 load_ttl_into_graph('data/validation_report.ttl', 'http://ex.org/ValidationReport')
-load_ttl_into_graph('data/msg_0001.ttl', 'http://ex.org/DataGraph')
+load_ttl_into_graph('data/msg_0014.ttl', 'http://ex.org/DataGraph')
 
 # Verify
 r = requests.get('http://localhost:8890/sparql',
